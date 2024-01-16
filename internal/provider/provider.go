@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/netdata/terraform-provider-netdata/pkg/client"
+	"github.com/netdata/terraform-provider-netdata/internal/client"
 )
 
 var _ provider.Provider = &netdataCloudProvider{}

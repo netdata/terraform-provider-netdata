@@ -39,7 +39,7 @@ resource "netdata_space" "test" {
 Import is supported using the following syntax:
 
 ```shell
-#!/bin/sh 
+#!/bin/sh
 
 terraform import netdata_space.test ee3ec76d-0180-4ef4-93ae-c94c1e7ed2f1
 ```

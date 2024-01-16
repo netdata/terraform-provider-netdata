@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/netdata/terraform-provider-netdata/pkg/client"
+	"github.com/netdata/terraform-provider-netdata/internal/client"
 )
 
 var (

@@ -1,6 +1,6 @@
-# Netdata Cloud provider for Terraform
+# Terraform Provider for Netdata Cloud
 
-This is the [Netdata Cloud](https://www.netdata.cloud/) provider for [Terraform](https://www.terraform.io/).
+This is the [Terraform](https://www.terraform.io/) provider for the [Netdata Cloud](https://www.netdata.cloud/).
 
 This provider allows you to install and manage Netdata Cloud resources using Terraform.
 
@@ -24,7 +24,7 @@ TODO
 
 * from source code
 
-	* setup your CLI configuration
+	* setup your [CLI configuration](https://developer.hashicorp.com/terraform/cli/config/config-file#development-overrides-for-provider-developers)
 
 	```console
 	$ cat ~/.terraformrc
@@ -58,7 +58,7 @@ terraform {
 
 provider "netdata" {
   url       = "https://app.netdata.cloud"
-  authtoken = "authtoken"
+  authtoken = "<authtoken>"
 }
 
 resource "netdata_space" "test" {

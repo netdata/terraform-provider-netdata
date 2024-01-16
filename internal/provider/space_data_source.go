@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/netdata/terraform-provider-netdata/pkg/client"
+	"github.com/netdata/terraform-provider-netdata/internal/client"
 )
 
 var (
