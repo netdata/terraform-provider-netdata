@@ -1,13 +1,12 @@
 package provider
 
 import (
-	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccSpaceDataSource(t *testing.T) {
+func TestAccRoomDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
@@ -16,13 +15,17 @@ func TestAccSpaceDataSource(t *testing.T) {
 					resource "netdata_space" "test" {
 						name = "testAcc"
 					}
-					data "netdata_space" "test" {
-						id = netdata_space.test.id
+					resource "netdata_room" "test" {
+						spaceid = netdata_space.test.id
+						name    = "testAcc"
+					}
+					data "netdata_room" "test" {
+						spaceid = netdata_space.test.id
+						id      = netdata_room.test.id
 					}
 					`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.netdata_space.test", "name", "testAcc"),
-					resource.TestMatchResourceAttr("data.netdata_space.test", "claimtoken", regexp.MustCompile(`^.{135}$`)),
+					resource.TestCheckResourceAttr("data.netdata_room.test", "name", "testAcc"),
 				),
 			},
 		},

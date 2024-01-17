@@ -88,12 +88,14 @@ func (p *netdataCloudProvider) Configure(ctx context.Context, req provider.Confi
 func (p *netdataCloudProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewSpaceResource,
+		NewRoomResource,
 	}
 }
 
 func (p *netdataCloudProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewSpaceDataSource,
+		NewRoomDataSource,
 	}
 }
 
