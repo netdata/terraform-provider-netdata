@@ -16,11 +16,11 @@ func TestAccRoomDataSource(t *testing.T) {
 						name = "testAcc"
 					}
 					resource "netdata_room" "test" {
-						spaceid = netdata_space.test.id
+						space_id = netdata_space.test.id
 						name    = "testAcc"
 					}
 					data "netdata_room" "test" {
-						spaceid = netdata_space.test.id
+						space_id = netdata_space.test.id
 						id      = netdata_room.test.id
 					}
 					`,

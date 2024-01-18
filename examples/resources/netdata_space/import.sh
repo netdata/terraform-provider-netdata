@@ -1,3 +1,3 @@
 #!/bin/sh
 
-terraform import netdata_space.test spaceid
+terraform import netdata_space.test space_id

@@ -30,7 +30,7 @@ type roomResource struct {
 
 type roomResourceModel struct {
 	ID          types.String `tfsdk:"id"`
-	SpaceID     types.String `tfsdk:"spaceid"`
+	SpaceID     types.String `tfsdk:"space_id"`
 	Name        types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
 }
@@ -49,7 +49,7 @@ func (s *roomResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"spaceid": schema.StringAttribute{
+			"space_id": schema.StringAttribute{
 				Description: "The ID of the space",
 				Required:    true,
 			},
@@ -213,11 +213,11 @@ func (s *roomResource) ImportState(ctx context.Context, req resource.ImportState
 	if len(idParts) != 2 || idParts[0] == "" || idParts[1] == "" {
 		resp.Diagnostics.AddError(
 			"Unexpected Import Identifier",
-			fmt.Sprintf("Expected import identifier with format: spaceid,id. Got: %q", req.ID),
+			fmt.Sprintf("Expected import identifier with format: space_id,id. Got: %q", req.ID),
 		)
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("spaceid"), idParts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("space_id"), idParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), idParts[1])...)
 }

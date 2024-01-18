@@ -22,7 +22,7 @@ func TestAccSpaceDataSource(t *testing.T) {
 					`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("data.netdata_space.test", "name", "testAcc"),
-					resource.TestMatchResourceAttr("data.netdata_space.test", "claimtoken", regexp.MustCompile(`^.{135}$`)),
+					resource.TestMatchResourceAttr("data.netdata_space.test", "claim_token", regexp.MustCompile(`^.{135}$`)),
 				),
 			},
 		},

@@ -1,4 +1,4 @@
 data "netdata_room" "test" {
-  spaceid = "<spaceid>"
-  id      = "<roomid>"
+  space_id = "<space_id>"
+  id       = "<room_id>"
 }

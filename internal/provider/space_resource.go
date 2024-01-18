@@ -34,7 +34,7 @@ type spaceResourceModel struct {
 	ID          types.String `tfsdk:"id"`
 	Name        types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
-	ClaimToken  types.String `tfsdk:"claimtoken"`
+	ClaimToken  types.String `tfsdk:"claim_token"`
 }
 
 func (s *spaceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -64,7 +64,7 @@ func (s *spaceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				Computed:    true,
 				Default:     stringdefault.StaticString(""),
 			},
-			"claimtoken": schema.StringAttribute{
+			"claim_token": schema.StringAttribute{
 				Description: "The claim token of the space",
 				Computed:    true,
 			},

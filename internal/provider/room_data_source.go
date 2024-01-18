@@ -25,7 +25,7 @@ type roomDataSource struct {
 
 type roomDataSourceModel struct {
 	ID          types.String `tfsdk:"id"`
-	SpaceID     types.String `tfsdk:"spaceid"`
+	SpaceID     types.String `tfsdk:"space_id"`
 	Name        types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
 }
@@ -41,7 +41,7 @@ func (s *roomDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, r
 				Description: "The ID of the room",
 				Required:    true,
 			},
-			"spaceid": schema.StringAttribute{
+			"space_id": schema.StringAttribute{
 				Description: "The ID of the space",
 				Required:    true,
 			},

@@ -1,4 +1,4 @@
 provider "netdata" {
-  url       = "https://app.netdata.cloud"
-  authtoken = "<authtoken>"
+  url        = "https://app.netdata.cloud"
+  auth_token = "<auth_token>"
 }

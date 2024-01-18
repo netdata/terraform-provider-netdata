@@ -1,5 +1,5 @@
 resource "netdata_room" "test" {
-  spaceid     = "<spaceid>"
+  space_id    = "<space_id>"
   name        = "MyTestingSpace"
   description = "Created by Terraform"
 }

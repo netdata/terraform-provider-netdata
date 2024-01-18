@@ -16,10 +16,10 @@ type Client struct {
 	AuthToken  string
 }
 
-func NewClient(url, authtoken string) *Client {
+func NewClient(url, auth_token string) *Client {
 	c := Client{
 		HostURL:    url,
-		AuthToken:  "Bearer " + authtoken,
+		AuthToken:  "Bearer " + auth_token,
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
 	}
 

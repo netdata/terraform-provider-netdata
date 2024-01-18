@@ -23,7 +23,7 @@ type netdataCloudProvider struct {
 
 type netdataCloudProviderModel struct {
 	Url       types.String `tfsdk:"url"`
-	AuthToken types.String `tfsdk:"authtoken"`
+	AuthToken types.String `tfsdk:"auth_token"`
 }
 
 func (p *netdataCloudProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -38,7 +38,7 @@ func (p *netdataCloudProvider) Schema(ctx context.Context, req provider.SchemaRe
 				MarkdownDescription: "Netdata Cloud URL Address by default is https://app.netdata.cloud. Can be also set as environment variable `NETDATA_CLOUD_URL`",
 				Optional:            true,
 			},
-			"authtoken": schema.StringAttribute{
+			"auth_token": schema.StringAttribute{
 				MarkdownDescription: "Netdata Cloud Authentication Token. Can be also set as environment variable `NETDATA_CLOUD_AUTH_TOKEN`",
 				Sensitive:           true,
 				Optional:            true,
@@ -57,10 +57,10 @@ func (p *netdataCloudProvider) Configure(ctx context.Context, req provider.Confi
 	}
 
 	url := os.Getenv("NETDATA_CLOUD_URL")
-	authtoken := os.Getenv("NETDATA_CLOUD_AUTH_TOKEN")
+	auth_token := os.Getenv("NETDATA_CLOUD_AUTH_TOKEN")
 
 	if !data.AuthToken.IsNull() {
-		authtoken = data.AuthToken.ValueString()
+		auth_token = data.AuthToken.ValueString()
 	}
 
 	if !data.Url.IsNull() {
@@ -71,15 +71,15 @@ func (p *netdataCloudProvider) Configure(ctx context.Context, req provider.Confi
 		url = NetdataCloudURL
 	}
 
-	if authtoken == "" {
+	if auth_token == "" {
 		resp.Diagnostics.AddAttributeError(
-			path.Root("authtoken"),
+			path.Root("auth_token"),
 			"Missing Netdata Cloud Authentication Token",
 			"Provide a valid Netdata Cloud Authentication Token to authenticate with Netdata Cloud.",
 		)
 	}
 
-	client := client.NewClient(url, authtoken)
+	client := client.NewClient(url, auth_token)
 
 	resp.DataSourceData = client
 	resp.ResourceData = client

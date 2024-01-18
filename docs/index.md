@@ -14,8 +14,8 @@ description: |-
 
 ```terraform
 provider "netdata" {
-  url       = "https://app.netdata.cloud"
-  authtoken = "<authtoken>"
+  url        = "https://app.netdata.cloud"
+  auth_token = "<auth_token>"
 }
 ```
 
@@ -24,5 +24,5 @@ provider "netdata" {
 
 ### Optional
 
-- `authtoken` (String, Sensitive) Netdata Cloud Authentication Token. Can be also set as environment variable `NETDATA_CLOUD_AUTH_TOKEN`
+- `auth_token` (String, Sensitive) Netdata Cloud Authentication Token. Can be also set as environment variable `NETDATA_CLOUD_AUTH_TOKEN`
 - `url` (String) Netdata Cloud URL Address by default is https://app.netdata.cloud. Can be also set as environment variable `NETDATA_CLOUD_URL`

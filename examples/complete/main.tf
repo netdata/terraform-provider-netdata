@@ -16,7 +16,7 @@ resource "netdata_space" "test" {
 }
 
 resource "netdata_room" "test" {
-  spaceid     = netdata_space.test.id
+  space_id    = netdata_space.test.id
   name        = "MyTestingRoom"
   description = "Created by Terraform2"
 }
@@ -26,10 +26,14 @@ data "netdata_space" "test" {
 }
 
 data "netdata_room" "test" {
-  id      = netdata_room.test.id
-  spaceid = netdata_space.test.id
+  id       = netdata_room.test.id
+  space_id = netdata_space.test.id
 }
 
 output "datasource" {
   value = data.netdata_space.test.name
+}
+
+output "claim_token" {
+  value = netdata_space.test.claim_token
 }

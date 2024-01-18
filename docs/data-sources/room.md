@@ -14,8 +14,8 @@ description: |-
 
 ```terraform
 data "netdata_room" "test" {
-  spaceid = "<spaceid>"
-  id      = "<roomid>"
+  space_id = "<space_id>"
+  id       = "<room_id>"
 }
 ```
 
@@ -25,7 +25,7 @@ data "netdata_room" "test" {
 ### Required
 
 - `id` (String) The ID of the room
-- `spaceid` (String) The ID of the space
+- `space_id` (String) The ID of the space
 
 ### Read-Only
 

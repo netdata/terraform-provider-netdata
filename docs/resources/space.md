@@ -32,7 +32,7 @@ resource "netdata_space" "test" {
 
 ### Read-Only
 
-- `claimtoken` (String) The claim token of the space
+- `claim_token` (String) The claim token of the space
 - `id` (String) The ID of the space
 
 ## Import
@@ -42,5 +42,5 @@ Import is supported using the following syntax:
 ```shell
 #!/bin/sh
 
-terraform import netdata_space.test spaceid
+terraform import netdata_space.test space_id
 ```

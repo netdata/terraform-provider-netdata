@@ -16,7 +16,7 @@ func TestAccSpaceResource(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("netdata_space.test", "name", "testAcc"),
 					resource.TestCheckResourceAttr("netdata_space.test", "description", ""),
-					resource.TestMatchResourceAttr("netdata_space.test", "claimtoken", regexp.MustCompile(`^.{135}$`)),
+					resource.TestMatchResourceAttr("netdata_space.test", "claim_token", regexp.MustCompile(`^.{135}$`)),
 				),
 			},
 		},

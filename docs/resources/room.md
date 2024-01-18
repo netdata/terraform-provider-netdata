@@ -14,7 +14,7 @@ description: |-
 
 ```terraform
 resource "netdata_room" "test" {
-  spaceid     = "<spaceid>"
+  space_id    = "<space_id>"
   name        = "MyTestingSpace"
   description = "Created by Terraform"
 }
@@ -26,7 +26,7 @@ resource "netdata_room" "test" {
 ### Required
 
 - `name` (String) The name of the room
-- `spaceid` (String) The ID of the space
+- `space_id` (String) The ID of the space
 
 ### Optional
 
@@ -43,5 +43,5 @@ Import is supported using the following syntax:
 ```shell
 #!/bin/sh
 
-terraform import netdata_room.test spaceid,roomid
+terraform import netdata_room.test space_id,room_id
 ```

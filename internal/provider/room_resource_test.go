@@ -16,7 +16,7 @@ func TestAccRoomResource(t *testing.T) {
 					name = "testAcc"
 				}
 				resource "netdata_room" "test" {
-					spaceid = netdata_space.test.id
+					space_id = netdata_space.test.id
 					name    = "testAcc"
 				}
 				`,

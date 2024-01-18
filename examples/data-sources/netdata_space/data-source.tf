@@ -1,3 +1,3 @@
 data "netdata_space" "test" {
-  id = "<spaceid>"
+  id = "<space_id>"
 }

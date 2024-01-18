@@ -14,7 +14,7 @@ description: |-
 
 ```terraform
 data "netdata_space" "test" {
-  id = "<spaceid>"
+  id = "<space_id>"
 }
 ```
 
@@ -27,6 +27,6 @@ data "netdata_space" "test" {
 
 ### Read-Only
 
-- `claimtoken` (String) The claim token of the space
+- `claim_token` (String) The claim token of the space
 - `description` (String) The description of the space
 - `name` (String) The name of the space
