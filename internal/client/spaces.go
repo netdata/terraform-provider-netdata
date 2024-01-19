@@ -1,10 +1,10 @@
 package client
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 )
 
 func (c *Client) GetSpaces() (*[]SpaceInfo, error) {
@@ -46,7 +46,7 @@ func (c *Client) CreateSpace(name, description string) (*SpaceInfo, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/spaces", c.HostURL), strings.NewReader(string(reqBody)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/spaces", c.HostURL), bytes.NewReader(reqBody))
 	if err != nil {
 		return nil, err
 	}
@@ -83,9 +83,9 @@ func (c *Client) UpdateSpaceByID(id, name, description string) error {
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("PATCH", fmt.Sprintf("%s/api/v1/spaces/%s", c.HostURL, id), strings.NewReader(string(reqBody)))
+	req, err := http.NewRequest("PATCH", fmt.Sprintf("%s/api/v1/spaces/%s", c.HostURL, id), bytes.NewReader(reqBody))
 	if err != nil {
-		return fmt.Errorf("req %+v", req)
+		return err
 	}
 	_, err = c.doRequest(req)
 	if err != nil {
@@ -109,4 +109,33 @@ func (c *Client) DeleteSpaceByID(id string) error {
 	}
 
 	return nil
+}
+
+func (c *Client) GetSpaceClaimToken(id string) (*string, error) {
+	if id == "" {
+		return nil, fmt.Errorf("id is empty")
+	}
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/spaces/%s/tokens", c.HostURL, id), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	respBody, err := c.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	var data map[string]interface{}
+
+	err = json.Unmarshal(respBody, &data)
+	if err != nil {
+		return nil, err
+	}
+
+	token, ok := data["token"].(string)
+	if !ok {
+		return nil, fmt.Errorf("token not found")
+	}
+
+	return &token, nil
 }

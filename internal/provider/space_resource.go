@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/netdata/terraform-provider-netdata/internal/client"
 )
 
@@ -33,6 +34,7 @@ type spaceResourceModel struct {
 	ID          types.String `tfsdk:"id"`
 	Name        types.String `tfsdk:"name"`
 	Description types.String `tfsdk:"description"`
+	ClaimToken  types.String `tfsdk:"claim_token"`
 }
 
 func (s *spaceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -61,6 +63,10 @@ func (s *spaceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				Optional:    true,
 				Computed:    true,
 				Default:     stringdefault.StaticString(""),
+			},
+			"claim_token": schema.StringAttribute{
+				Description: "The claim token of the space",
+				Computed:    true,
 			},
 		},
 	}
@@ -98,6 +104,8 @@ func (s *spaceResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
+	tflog.Info(ctx, "Creating space: "+plan.Name.ValueString())
+
 	spaceInfo, err := s.client.CreateSpace(plan.Name.ValueString(), plan.Description.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -110,6 +118,19 @@ func (s *spaceResource) Create(ctx context.Context, req resource.CreateRequest, 
 	plan.ID = types.StringValue(spaceInfo.ID)
 	plan.Name = types.StringValue(spaceInfo.Name)
 	plan.Description = types.StringValue(spaceInfo.Description)
+
+	tflog.Info(ctx, "Creating Claim Token for Space ID: "+spaceInfo.ID)
+
+	claimToken, err := s.client.GetSpaceClaimToken(spaceInfo.ID)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error Creating Claim Token",
+			"Could Not Create Claim Token for Space ID: "+spaceInfo.ID+": err: "+err.Error(),
+		)
+		return
+	}
+
+	plan.ClaimToken = types.StringValue(*claimToken)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
