@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -37,6 +38,7 @@ func (s *spaceDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (s *spaceDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Description: "Use this data source to get information about a Netdata Cloud Space.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "The ID of the space",
@@ -64,7 +66,6 @@ func (s *spaceDataSource) Configure(_ context.Context, req datasource.ConfigureR
 	}
 
 	client, ok := req.ProviderData.(*client.Client)
-
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -85,24 +86,23 @@ func (s *spaceDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	tflog.Info(ctx, "Reading Space ID:"+state.ID.ValueString())
 
 	spaceInfo, err := s.client.GetSpaceByID(state.ID.ValueString())
-
-	switch {
-	case err == client.ErrNotFound:
-		resp.State.RemoveResource(ctx)
-		return
-	case err != nil:
+	if err != nil {
+		if errors.Is(err, client.ErrNotFound) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError(
 			"Error Getting Space",
 			"Could Not Read Space ID: "+state.ID.ValueString()+": err: "+err.Error(),
 		)
 		return
-	default:
-		state.ID = types.StringValue(spaceInfo.ID)
-		state.Name = types.StringValue(spaceInfo.Name)
-		state.Description = types.StringValue(spaceInfo.Description)
-		if resp.Diagnostics.HasError() {
-			return
-		}
+	}
+
+	state.ID = types.StringValue(spaceInfo.ID)
+	state.Name = types.StringValue(spaceInfo.Name)
+	state.Description = types.StringValue(spaceInfo.Description)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
 	if state.ClaimToken.IsNull() {

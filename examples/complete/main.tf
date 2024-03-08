@@ -18,7 +18,51 @@ resource "netdata_space" "test" {
 resource "netdata_room" "test" {
   space_id    = netdata_space.test.id
   name        = "MyTestingRoom"
-  description = "Created by Terraform2"
+  description = "Created by Terraform"
+}
+
+resource "netdata_space_member" "test" {
+  email    = "foo@bar.local"
+  space_id = netdata_space.test.id
+  role     = "admin"
+}
+
+resource "netdata_room_member" "test" {
+  room_id         = netdata_room.test.id
+  space_id        = netdata_space.test.id
+  space_member_id = netdata_space_member.test.id
+}
+
+resource "netdata_notification_slack_channel" "test" {
+  name = "slack"
+
+  enabled     = true
+  space_id    = netdata_space.test.id
+  rooms_id    = [netdata_room.test.id]
+  alarms      = "ALARMS_SETTING_ALL"
+  webhook_url = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+}
+
+resource "netdata_notification_discord_channel" "test" {
+  name = "discord"
+
+  enabled        = true
+  space_id       = netdata_space.test.id
+  rooms_id       = [netdata_room.test.id]
+  alarms         = "ALARMS_SETTING_ALL"
+  webhook_url    = "https://discord.com/api/webhooks/0000000000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+  channel_type   = "forum"
+  channel_thread = "thread"
+}
+
+resource "netdata_notification_pagerduty_channel" "test" {
+  name = "pagerduty"
+
+  enabled          = true
+  space_id         = netdata_space.test.id
+  alarms           = "ALARMS_SETTING_ALL"
+  alert_events_url = "https://events.pagerduty.com/v2/enqueue"
+  integration_key  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
 
 data "netdata_space" "test" {
@@ -30,7 +74,7 @@ data "netdata_room" "test" {
   space_id = netdata_space.test.id
 }
 
-output "datasource" {
+output "space_name" {
   value = data.netdata_space.test.name
 }
 

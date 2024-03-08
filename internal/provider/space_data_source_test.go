@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"fmt"
 	"regexp"
 	"testing"
 
@@ -12,16 +13,13 @@ func TestAccSpaceDataSource(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: `
-					resource "netdata_space" "test" {
-						name = "testAcc"
-					}
+				Config: fmt.Sprintf(`
 					data "netdata_space" "test" {
-						id = netdata_space.test.id
+						id = "%s"
 					}
-					`,
+					`, getNonCommunitySpaceIDEnv()),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.netdata_space.test", "name", "testAcc"),
+					resource.TestCheckResourceAttrSet("data.netdata_space.test", "name"),
 					resource.TestMatchResourceAttr("data.netdata_space.test", "claim_token", regexp.MustCompile(`^.{135}$`)),
 				),
 			},

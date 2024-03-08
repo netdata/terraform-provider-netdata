@@ -3,12 +3,12 @@
 page_title: "netdata_space Data Source - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  
+  Use this data source to get information about a Netdata Cloud Space.
 ---
 
 # netdata_space (Data Source)
 
-
+Use this data source to get information about a Netdata Cloud Space.
 
 ## Example Usage
 

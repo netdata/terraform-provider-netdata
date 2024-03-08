@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -43,6 +44,7 @@ func (s *spaceResource) Metadata(ctx context.Context, req resource.MetadataReque
 
 func (s *spaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Description: "Provides a Netdata Cloud Space resource.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "The ID of the space",
@@ -78,7 +80,6 @@ func (s *spaceResource) Configure(ctx context.Context, req resource.ConfigureReq
 	}
 
 	client, ok := req.ProviderData.(*client.Client)
-
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -148,26 +149,24 @@ func (s *spaceResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	}
 
 	spaceInfo, err := s.client.GetSpaceByID(state.ID.ValueString())
-
-	switch {
-	case err == client.ErrNotFound:
-		resp.State.RemoveResource(ctx)
-		return
-	case err != nil:
+	if err != nil {
+		if errors.Is(err, client.ErrNotFound) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError(
 			"Error Getting Space",
 			"Could Not Read Space ID: "+state.ID.ValueString()+": err: "+err.Error(),
 		)
 		return
-	default:
-		state.ID = types.StringValue(spaceInfo.ID)
-		state.Name = types.StringValue(spaceInfo.Name)
-		state.Description = types.StringValue(spaceInfo.Description)
-		diags = resp.State.Set(ctx, &state)
-		resp.Diagnostics.Append(diags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
+	}
+
+	state.Name = types.StringValue(spaceInfo.Name)
+	state.Description = types.StringValue(spaceInfo.Description)
+	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 }
 

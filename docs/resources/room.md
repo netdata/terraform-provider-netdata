@@ -3,12 +3,12 @@
 page_title: "netdata_room Resource - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  
+  Provides a Netdata Cloud Room resource.
 ---
 
 # netdata_room (Resource)
 
-
+Provides a Netdata Cloud Room resource.
 
 ## Example Usage
 

@@ -1,6 +1,7 @@
 package client
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -8,7 +9,13 @@ import (
 	"time"
 )
 
-var ErrNotFound = errors.New("not found")
+var (
+	ErrNotFound          = errors.New("not found")
+	ErrSpaceIDRequired   = errors.New("spaceID is required")
+	ErrChannelIDRequired = errors.New("channelID is required")
+	ErrRoomIDRequired    = errors.New("roomID is required")
+	ErrMemberIDRequired  = errors.New("memberID is required")
+)
 
 type Client struct {
 	HostURL    string
@@ -43,8 +50,16 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 
 	statusOK := res.StatusCode >= 200 && res.StatusCode < 300
 	if !statusOK {
-		return nil, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
+		return nil, fmt.Errorf("uri: %s, method: %s, status: %d, body: %s", req.URL.RequestURI(), req.Method, res.StatusCode, body)
 	}
 
 	return body, err
+}
+
+func (c *Client) doRequestUnmarshal(req *http.Request, out any) error {
+	body, err := c.doRequest(req)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(body, &out)
 }

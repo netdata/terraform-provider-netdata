@@ -3,12 +3,12 @@
 page_title: "netdata Provider"
 subcategory: ""
 description: |-
-  
+  The Netdata Cloud Provider allows you to manage Netdata Cloud resources.
 ---
 
 # netdata Provider
 
-
+The Netdata Cloud Provider allows you to manage Netdata Cloud resources.
 
 ## Example Usage
 
