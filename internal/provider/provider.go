@@ -33,6 +33,7 @@ func (p *netdataCloudProvider) Metadata(ctx context.Context, req provider.Metada
 
 func (p *netdataCloudProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Description: "The Netdata Cloud Provider allows you to manage Netdata Cloud resources.",
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
 				MarkdownDescription: "Netdata Cloud URL Address by default is https://app.netdata.cloud. Can be also set as environment variable `NETDATA_CLOUD_URL`",
@@ -89,6 +90,11 @@ func (p *netdataCloudProvider) Resources(ctx context.Context) []func() resource.
 	return []func() resource.Resource{
 		NewSpaceResource,
 		NewRoomResource,
+		NewSpaceMemberResource,
+		NewRoomMemberResource,
+		NewSlackChannelResource,
+		NewDiscordChannelResource,
+		NewPagerdutyChannelResource,
 	}
 }
 

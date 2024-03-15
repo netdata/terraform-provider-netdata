@@ -3,12 +3,12 @@
 page_title: "netdata_room Data Source - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  
+  Use this data source to get information about a Netdata Cloud Room.
 ---
 
 # netdata_room (Data Source)
 
-
+Use this data source to get information about a Netdata Cloud Room.
 
 ## Example Usage
 

@@ -3,12 +3,12 @@
 page_title: "netdata_space Resource - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  
+  Provides a Netdata Cloud Space resource.
 ---
 
 # netdata_space (Resource)
 
-
+Provides a Netdata Cloud Space resource.
 
 ## Example Usage
 

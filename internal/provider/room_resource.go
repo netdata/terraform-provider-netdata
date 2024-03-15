@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -41,6 +42,7 @@ func (s *roomResource) Metadata(ctx context.Context, req resource.MetadataReques
 
 func (s *roomResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Description: "Provides a Netdata Cloud Room resource.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "The ID of the room",
@@ -52,6 +54,9 @@ func (s *roomResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 			"space_id": schema.StringAttribute{
 				Description: "The ID of the space",
 				Required:    true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Description: "The name of the room",
@@ -73,7 +78,6 @@ func (s *roomResource) Configure(ctx context.Context, req resource.ConfigureRequ
 	}
 
 	client, ok := req.ProviderData.(*client.Client)
-
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -128,26 +132,25 @@ func (s *roomResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 	}
 
 	roomInfo, err := s.client.GetRoomByID(state.ID.ValueString(), state.SpaceID.ValueString())
-
-	switch {
-	case err == client.ErrNotFound:
-		resp.State.RemoveResource(ctx)
-		return
-	case err != nil:
+	if err != nil {
+		if errors.Is(err, client.ErrNotFound) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError(
 			"Error Getting Room",
 			"Could Not Read Room ID: "+state.ID.ValueString()+": err: "+err.Error(),
 		)
 		return
-	default:
-		state.ID = types.StringValue(roomInfo.ID)
-		state.Name = types.StringValue(roomInfo.Name)
-		state.Description = types.StringValue(roomInfo.Description)
-		diags = resp.State.Set(ctx, &state)
-		resp.Diagnostics.Append(diags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
+	}
+
+	state.ID = types.StringValue(roomInfo.ID)
+	state.Name = types.StringValue(roomInfo.Name)
+	state.Description = types.StringValue(roomInfo.Description)
+	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 }
 
