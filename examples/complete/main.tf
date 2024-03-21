@@ -1,8 +1,7 @@
 terraform {
   required_providers {
     netdata = {
-      # TODO: Update this string with the published name of your provider.
-      source = "netdata.cloud/todo/netdata"
+      source = "netdata/netdata"
     }
   }
   required_version = ">= 1.1.0"

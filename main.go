@@ -20,8 +20,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		// TODO: Update this string with the published name of your provider.
-		Address: "netdata.cloud/todo/netdata",
+		Address: "registry.terraform.io/netdata/netdata",
 		Debug:   debug,
 	}
 
