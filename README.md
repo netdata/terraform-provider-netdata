@@ -4,7 +4,6 @@ This is the [Terraform](https://www.terraform.io/) provider for the [Netdata Clo
 
 This provider allows you to install and manage Netdata Cloud resources using Terraform.
 
-
 ## Contents
 
 * [Requirements](#requirements)
@@ -12,32 +11,29 @@ This provider allows you to install and manage Netdata Cloud resources using Ter
 
 ## Requirements
 
-- [Terraform](https://www.terraform.io/downloads.html) v1.1.0 or later
-- [Go](https://golang.org/doc/install) v1.20 or later (to build the provider plugin)
+* [Terraform](https://www.terraform.io/downloads.html) v1.1.0 or later
+* [Go](https://golang.org/doc/install) v1.20 or later (to build the provider plugin)
 
 ## Getting Started
 
 * from terraform registry
 
-TODO
-
 * from source code
 
-	* setup your [CLI configuration](https://developer.hashicorp.com/terraform/cli/config/config-file#development-overrides-for-provider-developers)
+    * setup your [CLI configuration](https://developer.hashicorp.com/terraform/cli/config/config-file#development-overrides-for-provider-developers)
 
-	```console
-	$ cat ~/.terraformrc
-	provider_installation {
-  		dev_overrides {
-		    # TODO: Update this string with the published name of your provider
-  		    "netdata.cloud/todo/netdata" = "<your GOBIN directory>"
-  		}
-  		direct {}
-	}
-	```
+    ```console
+    $ cat ~/.terraformrc
+    provider_installation {
+        dev_overrides {
+        "netdata/netdata" = "<your GOBIN directory>"
+        }
+        direct {}
+    }
+    ```
 
-	* build the provider
+    * build the provider
 
-	```console
-	$ make local-build
-	```
+    ```console
+    $ make local-build
+    ```

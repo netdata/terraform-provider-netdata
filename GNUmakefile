@@ -10,3 +10,9 @@ testacc:
 .PHONY: local-build
 local-build:
 	go install .
+
+# Generate docs
+.PHONY: docs
+docs:
+	@which tfplugindocs &>/dev/null || (echo "install tfplugindocs (https://github.com/hashicorp/terraform-plugin-docs)"; exit 1)
+	tfplugindocs generate .
