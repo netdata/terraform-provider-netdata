@@ -164,6 +164,19 @@ func (s *spaceResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		return
 	}
 
+	if state.ClaimToken.IsNull() {
+		tflog.Info(ctx, "Creating Claim Token for Space ID: "+spaceInfo.ID)
+		claimToken, err := s.client.GetSpaceClaimToken(spaceInfo.ID)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Error Creating Claim Token",
+				"Could Not Create Claim Token for Space ID: "+spaceInfo.ID+": err: "+err.Error(),
+			)
+			return
+		}
+		state.ClaimToken = types.StringValue(*claimToken)
+	}
+
 	state.Name = types.StringValue(spaceInfo.Name)
 	state.Description = types.StringValue(spaceInfo.Description)
 	diags = resp.State.Set(ctx, &state)
