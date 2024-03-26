@@ -1,3 +1,9 @@
+## 0.1.1
+
+BUGFIXES:
+
+- empty claim token when importing space
+
 ## 0.1.0
 
 Initial version.
