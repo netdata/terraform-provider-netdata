@@ -69,6 +69,9 @@ func (s *spaceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"claim_token": schema.StringAttribute{
 				Description: "The claim token of the space",
 				Computed:    true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 		},
 	}

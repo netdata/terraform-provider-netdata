@@ -3,12 +3,12 @@
 page_title: "netdata Provider"
 subcategory: ""
 description: |-
-  The Netdata Cloud Provider allows you to manage Netdata Cloud resources.
+  The Netdata Provider allows you to manage Netdata Cloud resources.
 ---
 
 # netdata Provider
 
-The Netdata Cloud Provider allows you to manage Netdata Cloud resources.
+The Netdata Provider allows you to manage Netdata Cloud resources.
 
 ## Example Usage
 
@@ -24,5 +24,5 @@ provider "netdata" {
 
 ### Optional
 
-- `auth_token` (String, Sensitive) Netdata Cloud Authentication Token. Can be also set as environment variable `NETDATA_CLOUD_AUTH_TOKEN`
+- `auth_token` (String, Sensitive) Netdata Cloud Authentication Token with `scope:all`, more [info](https://learn.netdata.cloud/docs/netdata-cloud/api-tokens). Can be also set as environment variable `NETDATA_CLOUD_AUTH_TOKEN`
 - `url` (String) Netdata Cloud URL Address by default is https://app.netdata.cloud. Can be also set as environment variable `NETDATA_CLOUD_URL`

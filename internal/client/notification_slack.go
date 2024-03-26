@@ -39,7 +39,7 @@ func (c *Client) CreateSlackChannel(spaceID string, commonParams NotificationCha
 
 	err = c.doRequestUnmarshal(req, &respNotificationChannel)
 	if err != nil {
-		return nil, fmt.Errorf(string(jsonReqBody))
+		return nil, err
 	}
 
 	err = c.EnableChannelByID(spaceID, respNotificationChannel.ID, commonParams.Enabled)
