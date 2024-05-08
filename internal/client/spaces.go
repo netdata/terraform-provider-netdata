@@ -107,7 +107,7 @@ func (c *Client) GetSpaceClaimToken(id string) (*string, error) {
 	if id == "" {
 		return nil, fmt.Errorf("id is empty")
 	}
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/api/v1/spaces/%s/tokens", c.HostURL, id), nil)
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/api/v1/spaces/%s/token/rotate", c.HostURL, id), nil)
 	if err != nil {
 		return nil, err
 	}
