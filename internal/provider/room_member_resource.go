@@ -41,7 +41,7 @@ func (s *roomMemberResource) Metadata(ctx context.Context, req resource.Metadata
 
 func (s *roomMemberResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Provides a Netdata Cloud Room Member resource.",
+		Description: "Provides a Netdata Cloud Room Member resource. Use this resource to manage user membership to the room in the selected space. It is referring to the user created at the space level.",
 		Attributes: map[string]schema.Attribute{
 			"room_id": schema.StringAttribute{
 				Description: "The Room ID of the space",

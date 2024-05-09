@@ -45,7 +45,7 @@ func (s *spaceMemberResource) Metadata(ctx context.Context, req resource.Metadat
 
 func (s *spaceMemberResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Provides a Netdata Cloud Space Member resource.",
+		Description: "Provides a Netdata Cloud Space Member resource. Use this resource to manage user membership to the space.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "The Member ID of the space",

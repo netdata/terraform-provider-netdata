@@ -1,3 +1,15 @@
+## 0.1.3
+
+FEATURES:
+
+- more detailed resource descriptions
+
+## 0.1.2
+
+BUGFIXES:
+
+- fix bug with empty claim token
+
 ## 0.1.1
 
 BUGFIXES:
