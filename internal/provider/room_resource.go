@@ -42,7 +42,7 @@ func (s *roomResource) Metadata(ctx context.Context, req resource.MetadataReques
 
 func (s *roomResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Provides a Netdata Cloud Room resource.",
+		Description: "Provides a Netdata Cloud Room resource. Use this resource to manage rooms in the selected space.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "The ID of the room",

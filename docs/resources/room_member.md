@@ -3,12 +3,12 @@
 page_title: "netdata_room_member Resource - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  Provides a Netdata Cloud Room Member resource.
+  Provides a Netdata Cloud Room Member resource. Use this resource to manage user membership to the room in the selected space. It is referring to the user created at the space level.
 ---
 
 # netdata_room_member (Resource)
 
-Provides a Netdata Cloud Room Member resource.
+Provides a Netdata Cloud Room Member resource. Use this resource to manage user membership to the room in the selected space. It is referring to the user created at the space level.
 
 ## Example Usage
 

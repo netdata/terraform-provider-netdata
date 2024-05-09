@@ -3,12 +3,12 @@
 page_title: "netdata_space_member Resource - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  Provides a Netdata Cloud Space Member resource.
+  Provides a Netdata Cloud Space Member resource. Use this resource to manage user membership to the space.
 ---
 
 # netdata_space_member (Resource)
 
-Provides a Netdata Cloud Space Member resource.
+Provides a Netdata Cloud Space Member resource. Use this resource to manage user membership to the space.
 
 ## Example Usage
 
