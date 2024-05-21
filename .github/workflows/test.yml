@@ -7,6 +7,8 @@ on:
   pull_request:
     paths-ignore:
       - 'README.md'
+  schedule:
+      - cron: '35 11 * * *'
 
 # Testing only needs permissions to read the repository contents.
 permissions:
@@ -80,3 +82,19 @@ jobs:
           NETDATA_CLOUD_AUTH_TOKEN: "${{ secrets.NETDATA_CLOUD_AUTH_TOKEN }}"
           SPACE_ID_NON_COMMUNITY: "${{ secrets.SPACE_ID_NON_COMMUNITY }}"
         run: go test ./... -sweep empty
+
+  notify:
+    name: Notify if fails when scheduled
+    needs: [build, generate, test]
+    runs-on: ubuntu-latest
+    if: ${{ always() && contains(needs.*.result, 'failure') && github.event_name == 'schedule' }}
+    timeout-minutes: 5
+    steps:
+      - name: add new github issue
+        uses: dacbd/create-issue-action@v1.2.1
+        with:
+          token: ${{ secrets.NETDATABOT_GITHUB_TOKEN }}
+          repo: infra
+          title: Failed terraform-provider-netdata test
+          body: |
+            [Failed job](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
