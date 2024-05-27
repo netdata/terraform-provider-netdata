@@ -15,6 +15,7 @@ var (
 	ErrChannelIDRequired = errors.New("channelID is required")
 	ErrRoomIDRequired    = errors.New("roomID is required")
 	ErrMemberIDRequired  = errors.New("memberID is required")
+	ErrNodeID            = errors.New("nodeID is required")
 )
 
 type Client struct {

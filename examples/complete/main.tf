@@ -32,6 +32,15 @@ resource "netdata_room_member" "test" {
   space_member_id = netdata_space_member.test.id
 }
 
+resource "netdata_node_room_member" "test" {
+  room_id  = netdata_room.test.id
+  space_id = netdata_space.test.id
+  node_names = [
+    "node1",
+    "node2"
+  ]
+}
+
 resource "netdata_notification_slack_channel" "test" {
   name = "slack"
 
