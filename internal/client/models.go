@@ -72,3 +72,13 @@ type Invitation struct {
 	ID    string `json:"id"`
 	Email string `json:"email"`
 }
+
+type RoomNodes struct {
+	Nodes []RoomNode `json:"nodes"`
+}
+
+type RoomNode struct {
+	NodeID   string `json:"nd"`
+	NodeName string `json:"nm"`
+	State    string `json:"state"`
+}

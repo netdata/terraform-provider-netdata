@@ -1,3 +1,9 @@
+## 0.2.0
+
+FEATURES:
+
+- add `netdata_node_room_member` resource
+
 ## 0.1.3
 
 FEATURES:
