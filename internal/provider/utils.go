@@ -18,3 +18,11 @@ func testAccPreCheck(t *testing.T) {
 func getNonCommunitySpaceIDEnv() string {
 	return os.Getenv(nonCommunitySpaceIDEnv)
 }
+
+func getNetdataCloudURL() string {
+	url, ok := os.LookupEnv("NETDATA_CLOUD_URL")
+	if !ok {
+		return NetdataCloudURL
+	}
+	return url
+}
