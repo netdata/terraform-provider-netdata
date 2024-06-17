@@ -59,7 +59,7 @@ services:
       - NETDATA_CLAIM_TOKEN=$${NETDATA_CLAIM_TOKEN}
       - NETDATA_CLAIM_URL=%s
 EOF
-docker-compose up -d && sleep 5
+docker-compose up -d && sleep 30
 EOT
 					  environment = {
 					    NETDATA_CLAIM_TOKEN = netdata_space.test.claim_token
