@@ -59,7 +59,7 @@ services:
       - NETDATA_CLAIM_TOKEN=$${NETDATA_CLAIM_TOKEN}
       - NETDATA_CLAIM_URL=%s
 EOF
-docker-compose up -d && sleep 30
+docker compose up -d && sleep 30
 EOT
 					  environment = {
 					    NETDATA_CLAIM_TOKEN = netdata_space.test.claim_token
@@ -67,7 +67,7 @@ EOT
 					}
 					provisioner "local-exec" {
 					  when    = destroy
-					  command = "docker-compose down"
+					  command = "docker compose down"
 					}
 				}
 				`, getNetdataCloudURL()),
