@@ -70,10 +70,9 @@ func (c *Client) UpdateDiscordChannelByID(spaceID string, commonParams Notificat
 	}
 
 	reqBody := notificationRequestPayload{
-		Name:          commonParams.Name,
-		IntegrationID: commonParams.Integration.ID,
-		Rooms:         commonParams.Rooms,
-		Alarms:        commonParams.Alarms,
+		Name:   commonParams.Name,
+		Rooms:  commonParams.Rooms,
+		Alarms: commonParams.Alarms,
 	}
 
 	secretsJson, err := json.Marshal(discordParams)

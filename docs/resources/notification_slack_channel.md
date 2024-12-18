@@ -42,7 +42,6 @@ resource "netdata_notification_slack_channel" "test" {
 ### Read-Only
 
 - `id` (String) The ID of the Slack notification
-- `integration_id` (String) The ID of the notification integration
 
 ## Import
 

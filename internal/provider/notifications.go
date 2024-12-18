@@ -57,13 +57,6 @@ func commonNotificationSchema(notificationType string) schema.Schema {
 					),
 				},
 			},
-			"integration_id": schema.StringAttribute{
-				Description: "The ID of the notification integration",
-				Computed:    true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
 		},
 	}
 }

@@ -44,7 +44,6 @@ resource "netdata_notification_pagerduty_channel" "test" {
 ### Read-Only
 
 - `id` (String) The ID of the Pagerduty notification
-- `integration_id` (String) The ID of the notification integration
 
 ## Import
 

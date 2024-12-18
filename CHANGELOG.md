@@ -1,3 +1,10 @@
+## 0.2.1
+
+BUGFIXES:
+
+- the `integration_id` attribute is being removed because it is internally used for the create resource only and
+  doesn't bring much value to store it
+
 ## 0.2.0
 
 FEATURES:

@@ -69,10 +69,9 @@ func (c *Client) UpdatePagerdutyChannelByID(spaceID string, commonParams Notific
 	}
 
 	reqBody := notificationRequestPayload{
-		Name:          commonParams.Name,
-		IntegrationID: commonParams.Integration.ID,
-		Rooms:         commonParams.Rooms,
-		Alarms:        commonParams.Alarms,
+		Name:   commonParams.Name,
+		Rooms:  commonParams.Rooms,
+		Alarms: commonParams.Alarms,
 	}
 
 	secretsJson, err := json.Marshal(pagerdutyParams)
