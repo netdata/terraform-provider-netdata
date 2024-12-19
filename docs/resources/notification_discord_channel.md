@@ -45,7 +45,6 @@ resource "netdata_notification_discord_channel" "test" {
 ### Read-Only
 
 - `id` (String) The ID of the Discord notification
-- `integration_id` (String) The ID of the notification integration
 
 ## Import
 

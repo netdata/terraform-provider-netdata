@@ -34,7 +34,6 @@ type pagerdutyChannelResourceModel struct {
 	SpaceID        types.String `tfsdk:"space_id"`
 	RoomsID        types.List   `tfsdk:"rooms_id"`
 	Alarms         types.String `tfsdk:"alarms"`
-	IntegrationID  types.String `tfsdk:"integration_id"`
 	AlertEventsURL types.String `tfsdk:"alert_events_url"`
 	IntegrationKey types.String `tfsdk:"integration_key"`
 }
@@ -124,7 +123,6 @@ func (s *pagerdutyChannelResource) Create(ctx context.Context, req resource.Crea
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	plan.Alarms = types.StringValue(notificationChannel.Alarms)
-	plan.IntegrationID = types.StringValue(notificationIntegration.ID)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
@@ -186,25 +184,15 @@ func (s *pagerdutyChannelResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	notificationIntegration, err := s.client.GetNotificationIntegrationByType(plan.SpaceID.ValueString(), "pagerduty")
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Creating Pagerduty Notification",
-			"err: "+err.Error(),
-		)
-		return
-	}
-
 	var roomsID []string
 	plan.RoomsID.ElementsAs(ctx, &roomsID, false)
 
 	commonParams := client.NotificationChannel{
-		ID:          plan.ID.ValueString(),
-		Name:        plan.Name.ValueString(),
-		Integration: *notificationIntegration,
-		Rooms:       roomsID,
-		Alarms:      plan.Alarms.ValueString(),
-		Enabled:     plan.Enabled.ValueBool(),
+		ID:      plan.ID.ValueString(),
+		Name:    plan.Name.ValueString(),
+		Rooms:   roomsID,
+		Alarms:  plan.Alarms.ValueString(),
+		Enabled: plan.Enabled.ValueBool(),
 	}
 
 	pagerdutyParams := client.NotificationPagerdutyChannel{
@@ -227,7 +215,6 @@ func (s *pagerdutyChannelResource) Update(ctx context.Context, req resource.Upda
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	plan.Alarms = types.StringValue(notificationChannel.Alarms)
-	plan.IntegrationID = types.StringValue(notificationIntegration.ID)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)

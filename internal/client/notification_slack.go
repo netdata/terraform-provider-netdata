@@ -68,10 +68,9 @@ func (c *Client) UpdateSlackChannelByID(spaceID string, commonParams Notificatio
 	}
 
 	reqBody := notificationRequestPayload{
-		Name:          commonParams.Name,
-		IntegrationID: commonParams.Integration.ID,
-		Rooms:         commonParams.Rooms,
-		Alarms:        commonParams.Alarms,
+		Name:   commonParams.Name,
+		Rooms:  commonParams.Rooms,
+		Alarms: commonParams.Alarms,
 	}
 	secretsJson, err := json.Marshal(slackParams)
 	if err != nil {

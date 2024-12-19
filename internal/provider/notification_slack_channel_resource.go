@@ -28,14 +28,13 @@ type slackChannelResource struct {
 }
 
 type slackChannelResourceModel struct {
-	ID            types.String `tfsdk:"id"`
-	Name          types.String `tfsdk:"name"`
-	Enabled       types.Bool   `tfsdk:"enabled"`
-	SpaceID       types.String `tfsdk:"space_id"`
-	RoomsID       types.List   `tfsdk:"rooms_id"`
-	Alarms        types.String `tfsdk:"alarms"`
-	IntegrationID types.String `tfsdk:"integration_id"`
-	WebhookURL    types.String `tfsdk:"webhook_url"`
+	ID         types.String `tfsdk:"id"`
+	Name       types.String `tfsdk:"name"`
+	Enabled    types.Bool   `tfsdk:"enabled"`
+	SpaceID    types.String `tfsdk:"space_id"`
+	RoomsID    types.List   `tfsdk:"rooms_id"`
+	Alarms     types.String `tfsdk:"alarms"`
+	WebhookURL types.String `tfsdk:"webhook_url"`
 }
 
 func (s *slackChannelResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -117,7 +116,6 @@ func (s *slackChannelResource) Create(ctx context.Context, req resource.CreateRe
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	plan.Alarms = types.StringValue(notificationChannel.Alarms)
-	plan.IntegrationID = types.StringValue(notificationIntegration.ID)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
@@ -178,26 +176,15 @@ func (s *slackChannelResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	notificationIntegration, err := s.client.GetNotificationIntegrationByType(plan.SpaceID.ValueString(), "slack")
-
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error Creating Slack Notification",
-			"err: "+err.Error(),
-		)
-		return
-	}
-
 	var roomsID []string
 	plan.RoomsID.ElementsAs(ctx, &roomsID, false)
 
 	commonParams := client.NotificationChannel{
-		ID:          plan.ID.ValueString(),
-		Name:        plan.Name.ValueString(),
-		Integration: *notificationIntegration,
-		Rooms:       roomsID,
-		Alarms:      plan.Alarms.ValueString(),
-		Enabled:     plan.Enabled.ValueBool(),
+		ID:      plan.ID.ValueString(),
+		Name:    plan.Name.ValueString(),
+		Rooms:   roomsID,
+		Alarms:  plan.Alarms.ValueString(),
+		Enabled: plan.Enabled.ValueBool(),
 	}
 
 	slackParams := client.NotificationSlackChannel{
@@ -218,7 +205,6 @@ func (s *slackChannelResource) Update(ctx context.Context, req resource.UpdateRe
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	plan.Alarms = types.StringValue(notificationChannel.Alarms)
-	plan.IntegrationID = types.StringValue(notificationIntegration.ID)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
