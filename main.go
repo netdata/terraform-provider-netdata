@@ -1,32 +1,12 @@
 package main
 
 import (
-	"context"
-	"flag"
-	"log"
-
-	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/netdata/terraform-provider-netdata/internal/provider"
-)
-
-var (
-	version string = "0.1.0"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"github.com/netdata/terraform-provider-netdata/provider"
 )
 
 func main() {
-	var debug bool
-
-	flag.BoolVar(&debug, "debug", false, "set to true to run the provider with support for debuggers like delve")
-	flag.Parse()
-
-	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/netdata/netdata",
-		Debug:   debug,
-	}
-
-	err := providerserver.Serve(context.Background(), provider.New(version), opts)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	plugin.Serve(&plugin.ServeOpts{
+		ProviderFunc: provider.Provider,
+	})
 }
