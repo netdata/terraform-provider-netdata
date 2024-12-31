@@ -16,12 +16,13 @@ Resource for managing centralized notifications for Discord. Available only in p
 resource "netdata_notification_discord_channel" "test" {
   name = "discord notifications"
 
-  enabled      = true
-  space_id     = "<space_id>"
-  rooms_id     = ["<room_id>"]
-  webhook_url  = "https://discord.com/api/webhooks/0000000000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-  alarms       = "ALARMS_SETTING_ALL"
-  channel_type = "text"
+  enabled                 = true
+  space_id                = "<space_id>"
+  rooms_id                = ["<room_id>"]
+  repeat_notification_min = 30
+  webhook_url             = "https://discord.com/api/webhooks/0000000000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+  alarms                  = "ALARMS_SETTING_ALL"
+  channel_type            = "text"
 }
 ```
 
@@ -40,6 +41,7 @@ resource "netdata_notification_discord_channel" "test" {
 ### Optional
 
 - `channel_thread` (String) Discord channel thread name required if channel type is `forum`
+- `repeat_notification_min` (Number) The time interval for the Discord notification to be repeated. The interval is presented in minutes and should be between 30 and 1440, or 0 to avoid repetition, which is the default.
 - `rooms_id` (List of String) The list of room IDs to set the Discord notification. If the rooms list is null, the Discord notification will be applied to `All rooms`
 
 ### Read-Only

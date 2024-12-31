@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -45,6 +47,18 @@ func commonNotificationSchema(notificationType string) schema.Schema {
 				Optional:    true,
 				Validators: []validator.List{
 					listvalidator.SizeAtLeast(1),
+				},
+			},
+			"repeat_notification_min": schema.Int64Attribute{
+				Description: fmt.Sprintf("The time interval for the %s notification to be repeated. The interval is presented in minutes and should be between 30 and 1440, or 0 to avoid repetition, which is the default.", notificationType),
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(0),
+				Validators: []validator.Int64{
+					int64validator.Any(
+						int64validator.OneOf(0),
+						int64validator.Between(30, 1440),
+					),
 				},
 			},
 			"alarms": schema.StringAttribute{

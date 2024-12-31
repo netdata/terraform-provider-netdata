@@ -28,14 +28,15 @@ type pagerdutyChannelResource struct {
 }
 
 type pagerdutyChannelResourceModel struct {
-	ID             types.String `tfsdk:"id"`
-	Name           types.String `tfsdk:"name"`
-	Enabled        types.Bool   `tfsdk:"enabled"`
-	SpaceID        types.String `tfsdk:"space_id"`
-	RoomsID        types.List   `tfsdk:"rooms_id"`
-	Alarms         types.String `tfsdk:"alarms"`
-	AlertEventsURL types.String `tfsdk:"alert_events_url"`
-	IntegrationKey types.String `tfsdk:"integration_key"`
+	ID                       types.String `tfsdk:"id"`
+	Name                     types.String `tfsdk:"name"`
+	Enabled                  types.Bool   `tfsdk:"enabled"`
+	SpaceID                  types.String `tfsdk:"space_id"`
+	RoomsID                  types.List   `tfsdk:"rooms_id"`
+	Alarms                   types.String `tfsdk:"alarms"`
+	RepeatNotificationMinute types.Int64  `tfsdk:"repeat_notification_min"`
+	AlertEventsURL           types.String `tfsdk:"alert_events_url"`
+	IntegrationKey           types.String `tfsdk:"integration_key"`
 }
 
 func (s *pagerdutyChannelResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -97,11 +98,12 @@ func (s *pagerdutyChannelResource) Create(ctx context.Context, req resource.Crea
 	plan.RoomsID.ElementsAs(ctx, &roomsID, false)
 
 	commonParams := client.NotificationChannel{
-		Name:        plan.Name.ValueString(),
-		Integration: *notificationIntegration,
-		Rooms:       roomsID,
-		Alarms:      plan.Alarms.ValueString(),
-		Enabled:     plan.Enabled.ValueBool(),
+		Name:                     plan.Name.ValueString(),
+		Integration:              *notificationIntegration,
+		Rooms:                    roomsID,
+		Alarms:                   plan.Alarms.ValueString(),
+		Enabled:                  plan.Enabled.ValueBool(),
+		RepeatNotificationMinute: plan.RepeatNotificationMinute.ValueInt64(),
 	}
 
 	pagerdutyParams := client.NotificationPagerdutyChannel{
@@ -123,6 +125,7 @@ func (s *pagerdutyChannelResource) Create(ctx context.Context, req resource.Crea
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	plan.Alarms = types.StringValue(notificationChannel.Alarms)
+	plan.RepeatNotificationMinute = types.Int64Value(notificationChannel.RepeatNotificationMinute)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
@@ -166,6 +169,7 @@ func (s *pagerdutyChannelResource) Read(ctx context.Context, req resource.ReadRe
 	state.Enabled = types.BoolValue(notificationChannel.Enabled)
 	state.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	state.Alarms = types.StringValue(notificationChannel.Alarms)
+	state.RepeatNotificationMinute = types.Int64Value(notificationChannel.RepeatNotificationMinute)
 	state.AlertEventsURL = types.StringValue(notificationSecrets.AlertEventsURL)
 	state.IntegrationKey = types.StringValue(notificationSecrets.IntegrationKey)
 	diags = resp.State.Set(ctx, &state)
@@ -188,11 +192,12 @@ func (s *pagerdutyChannelResource) Update(ctx context.Context, req resource.Upda
 	plan.RoomsID.ElementsAs(ctx, &roomsID, false)
 
 	commonParams := client.NotificationChannel{
-		ID:      plan.ID.ValueString(),
-		Name:    plan.Name.ValueString(),
-		Rooms:   roomsID,
-		Alarms:  plan.Alarms.ValueString(),
-		Enabled: plan.Enabled.ValueBool(),
+		ID:                       plan.ID.ValueString(),
+		Name:                     plan.Name.ValueString(),
+		Rooms:                    roomsID,
+		Alarms:                   plan.Alarms.ValueString(),
+		Enabled:                  plan.Enabled.ValueBool(),
+		RepeatNotificationMinute: plan.RepeatNotificationMinute.ValueInt64(),
 	}
 
 	pagerdutyParams := client.NotificationPagerdutyChannel{
@@ -215,6 +220,7 @@ func (s *pagerdutyChannelResource) Update(ctx context.Context, req resource.Upda
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
 	plan.Alarms = types.StringValue(notificationChannel.Alarms)
+	plan.RepeatNotificationMinute = types.Int64Value(notificationChannel.RepeatNotificationMinute)
 
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)

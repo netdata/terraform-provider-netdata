@@ -16,11 +16,12 @@ Resource for managing centralized notifications for Slack. Available only in pai
 resource "netdata_notification_slack_channel" "test" {
   name = "slack notifications"
 
-  enabled     = true
-  space_id    = "<space_id>"
-  rooms_id    = ["<room_id>"]
-  webhook_url = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-  alarms      = "ALARMS_SETTING_ALL"
+  enabled                 = true
+  space_id                = "<space_id>"
+  rooms_id                = ["<room_id>"]
+  repeat_notification_min = 30
+  webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+  alarms                  = "ALARMS_SETTING_ALL"
 }
 ```
 
@@ -37,6 +38,7 @@ resource "netdata_notification_slack_channel" "test" {
 
 ### Optional
 
+- `repeat_notification_min` (Number) The time interval for the Slack notification to be repeated. The interval is presented in minutes and should be between 30 and 1440, or 0 to avoid repetition, which is the default.
 - `rooms_id` (List of String) The list of room IDs to set the Slack notification. If the rooms list is null, the Slack notification will be applied to `All rooms`
 
 ### Read-Only

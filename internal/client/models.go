@@ -29,13 +29,14 @@ type NotificationIntegrations struct {
 }
 
 type NotificationChannel struct {
-	ID          string                  `json:"id"`
-	Enabled     bool                    `json:"enabled"`
-	Name        string                  `json:"name"`
-	Integration NotificationIntegration `json:"integration"`
-	Alarms      string                  `json:"alarms"`
-	Rooms       []string                `json:"rooms"`
-	Secrets     json.RawMessage         `json:"secrets"`
+	ID                       string                  `json:"id"`
+	Enabled                  bool                    `json:"enabled"`
+	Name                     string                  `json:"name"`
+	Integration              NotificationIntegration `json:"integration"`
+	Alarms                   string                  `json:"alarms"`
+	Rooms                    []string                `json:"rooms"`
+	Secrets                  json.RawMessage         `json:"secrets"`
+	RepeatNotificationMinute int64                   `json:"repeat_notification_min,omitempty"`
 }
 
 type NotificationIntegration struct {
@@ -61,11 +62,12 @@ type NotificationPagerdutyChannel struct {
 }
 
 type notificationRequestPayload struct {
-	Name          string          `json:"name"`
-	IntegrationID string          `json:"integrationID"`
-	Alarms        string          `json:"alarms"`
-	Rooms         []string        `json:"rooms"`
-	Secrets       json.RawMessage `json:"secrets"`
+	Name                     string          `json:"name"`
+	IntegrationID            string          `json:"integrationID"`
+	Alarms                   string          `json:"alarms"`
+	Rooms                    []string        `json:"rooms"`
+	Secrets                  json.RawMessage `json:"secrets"`
+	RepeatNotificationMinute int64           `json:"repeat_notification_min,omitempty"`
 }
 
 type Invitation struct {
