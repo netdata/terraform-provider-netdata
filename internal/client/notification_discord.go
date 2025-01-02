@@ -14,10 +14,11 @@ func (c *Client) CreateDiscordChannel(spaceID string, commonParams NotificationC
 	}
 
 	reqBody := notificationRequestPayload{
-		Name:          commonParams.Name,
-		IntegrationID: commonParams.Integration.ID,
-		Rooms:         commonParams.Rooms,
-		Alarms:        commonParams.Alarms,
+		Name:                     commonParams.Name,
+		IntegrationID:            commonParams.Integration.ID,
+		Rooms:                    commonParams.Rooms,
+		Alarms:                   commonParams.Alarms,
+		RepeatNotificationMinute: commonParams.RepeatNotificationMinute,
 	}
 
 	secretsJson, err := json.Marshal(discordParams)
@@ -70,9 +71,10 @@ func (c *Client) UpdateDiscordChannelByID(spaceID string, commonParams Notificat
 	}
 
 	reqBody := notificationRequestPayload{
-		Name:   commonParams.Name,
-		Rooms:  commonParams.Rooms,
-		Alarms: commonParams.Alarms,
+		Name:                     commonParams.Name,
+		Rooms:                    commonParams.Rooms,
+		Alarms:                   commonParams.Alarms,
+		RepeatNotificationMinute: commonParams.RepeatNotificationMinute,
 	}
 
 	secretsJson, err := json.Marshal(discordParams)

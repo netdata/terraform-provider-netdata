@@ -16,12 +16,13 @@ Resource for managing centralized notifications for Pagerduty. Available only in
 resource "netdata_notification_pagerduty_channel" "test" {
   name = "pagerduty notifications"
 
-  enabled          = true
-  space_id         = netdata_space.test.id
-  rooms_id         = ["<room_id>"]
-  alarms           = "ALARMS_SETTING_ALL"
-  alert_events_url = "https://events.pagerduty.com/v2/enqueue"
-  integration_key  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  enabled                 = true
+  space_id                = netdata_space.test.id
+  rooms_id                = ["<room_id>"]
+  alarms                  = "ALARMS_SETTING_ALL"
+  repeat_notification_min = 30
+  alert_events_url        = "https://events.pagerduty.com/v2/enqueue"
+  integration_key         = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
 ```
 
@@ -39,6 +40,7 @@ resource "netdata_notification_pagerduty_channel" "test" {
 
 ### Optional
 
+- `repeat_notification_min` (Number) The time interval for the Pagerduty notification to be repeated. The interval is presented in minutes and should be between 30 and 1440, or 0 to avoid repetition, which is the default.
 - `rooms_id` (List of String) The list of room IDs to set the Pagerduty notification. If the rooms list is null, the Pagerduty notification will be applied to `All rooms`
 
 ### Read-Only

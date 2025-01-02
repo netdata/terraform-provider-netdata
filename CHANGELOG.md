@@ -1,3 +1,9 @@
+## 0.2.2
+
+FEATURES:
+
+- option to specify notification repeat interval `repeat_notification_min` for the paid notification channels
+
 ## 0.2.1
 
 BUGFIXES:

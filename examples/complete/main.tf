@@ -44,11 +44,12 @@ resource "netdata_node_room_member" "test" {
 resource "netdata_notification_slack_channel" "test" {
   name = "slack"
 
-  enabled     = true
-  space_id    = netdata_space.test.id
-  rooms_id    = [netdata_room.test.id]
-  alarms      = "ALARMS_SETTING_ALL"
-  webhook_url = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+  enabled                 = true
+  space_id                = netdata_space.test.id
+  rooms_id                = [netdata_room.test.id]
+  alarms                  = "ALARMS_SETTING_ALL"
+  repeat_notification_min = 60
+  webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
 }
 
 resource "netdata_notification_discord_channel" "test" {
