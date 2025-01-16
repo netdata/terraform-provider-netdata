@@ -84,3 +84,17 @@ type RoomNode struct {
 	NodeName string `json:"nm"`
 	State    string `json:"state"`
 }
+type NodeMembershipRule struct {
+	ID          string                 `json:"id"`
+	SpaceID     string                 `json:"spaceID"`
+	RoomID      string                 `json:"roomID"`
+	Clauses     []NodeMembershipClause `json:"clauses"`
+	Action      string                 `json:"action"`
+	Description string                 `json:"description"`
+}
+type NodeMembershipClause struct {
+	Label    string `json:"label"`
+	Operator string `json:"operator"`
+	Value    string `json:"value"`
+	Negate   bool   `json:"negate"`
+}

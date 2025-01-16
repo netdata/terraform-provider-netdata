@@ -9,6 +9,49 @@ terraform {
 
 provider "netdata" {}
 
+resource "netdata_node_room_member" "new" {
+  room_id  = netdata_room.test.id
+  space_id = netdata_space.test.id
+
+  node_names = [
+    "node1",
+    "node2"
+  ]
+
+  rule {
+    action      = "INCLUDE"
+    description = "Description of the rule"
+    clause {
+      label    = "role"
+      operator = "equals"
+      value    = "parent"
+      negate   = false
+    }
+    clause {
+      label    = "environment"
+      operator = "equals"
+      value    = "production"
+      negate   = false
+    }
+  }
+  rule {
+    action      = "EXCLUDE"
+    description = "Description of the rule"
+    clause {
+      label    = "role"
+      operator = "equals"
+      value    = "parent"
+      negate   = true
+    }
+    clause {
+      label    = "environment"
+      operator = "contains"
+      value    = "production"
+      negate   = false
+    }
+  }
+}
+
 resource "netdata_space" "test" {
   name        = "MyTestingSpace"
   description = "Created by Terraform"

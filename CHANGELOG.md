@@ -1,3 +1,9 @@
+## 0.3.0
+
+FEATURES:
+
+- add Node Rule-Based Room Assignment option to the `netdata_node_room_member` resource
+
 ## 0.2.2
 
 FEATURES:

@@ -6,8 +6,10 @@ This provider allows you to install and manage Netdata Cloud resources using Ter
 
 ## Contents
 
-* [Requirements](#requirements)
-* [Getting Started](#getting-started)
+- [Terraform Provider for Netdata Cloud](#terraform-provider-for-netdata-cloud)
+  - [Contents](#contents)
+  - [Requirements](#requirements)
+  - [Getting Started](#getting-started)
 
 ## Requirements
 
