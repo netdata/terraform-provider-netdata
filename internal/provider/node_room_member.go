@@ -60,7 +60,7 @@ func (s *nodeRoomMemberResource) Schema(ctx context.Context, req resource.Schema
 	resp.Schema = schema.Schema{
 		Description: `
 Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space.
-There are two option to add nodes to the room:
+There are two options to add nodes to the room:
 - providing the node names directly, but only reachable nodes will be added to the room. Use node_names attribute for this.
 - creating rules that will automatically add nodes to the room based on the rule. Use rule block for this.
 `,
