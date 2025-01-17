@@ -5,16 +5,15 @@ subcategory: ""
 description: |-
   Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space.
   There are two option to add nodes to the room:
-  1. By providing the node names directly, but only reachable nodes will be added to the room. Use node_names attribute for this.
-  2. By creating rules that will automatically add nodes to the room based on the rule. Use rule block for this.
+  providing the node names directly, but only reachable nodes will be added to the room. Use node_names attribute for this.creating rules that will automatically add nodes to the room based on the rule. Use rule block for this.
 ---
 
 # netdata_node_room_member (Resource)
 
 Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space.
 There are two option to add nodes to the room:
-1. By providing the node names directly, but only reachable nodes will be added to the room. Use node_names attribute for this.
-2. By creating rules that will automatically add nodes to the room based on the rule. Use rule block for this.
+- providing the node names directly, but only reachable nodes will be added to the room. Use node_names attribute for this.
+- creating rules that will automatically add nodes to the room based on the rule. Use rule block for this.
 
 ## Example Usage
 
