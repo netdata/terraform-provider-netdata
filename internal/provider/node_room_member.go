@@ -577,16 +577,19 @@ func checkNodeMembershipRule(ruleID string, rules []nodeRoomMembershipRule) (boo
 }
 
 func checkNodeMembershipClausesDiff(resp []client.NodeMembershipClause, stateClauses []nodeRoomMembershipClause) bool {
-	var diff bool
-	for _, s := range stateClauses {
-		for _, r := range resp {
-			if r.Label != s.Label.ValueString() ||
-				r.Operator != s.Operator.ValueString() ||
-				r.Value != s.Value.ValueString() ||
-				r.Negate != s.Negate.ValueBool() {
-				diff = true
-			}
+	if len(resp) != len(stateClauses) {
+		return true
+	}
+
+	for i, r := range resp {
+		s := stateClauses[i]
+		if r.Label != s.Label.ValueString() ||
+			r.Operator != s.Operator.ValueString() ||
+			r.Value != s.Value.ValueString() ||
+			r.Negate != s.Negate.ValueBool() {
+			return true
 		}
 	}
-	return diff
+
+	return false
 }
