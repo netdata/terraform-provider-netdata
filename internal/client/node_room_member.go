@@ -58,7 +58,7 @@ func (c *Client) GetAllNodes(spaceID string) (*RoomNodes, error) {
 	return roomNodes, nil
 }
 
-func (c *Client) ListNodeMembershipRules(spaceID, roomID string) (*[]NodeMembershipRule, error) {
+func (c *Client) ListNodeMembershipRules(spaceID, roomID string) ([]NodeMembershipRule, error) {
 	if spaceID == "" {
 		return nil, ErrSpaceIDRequired
 	}
@@ -78,7 +78,7 @@ func (c *Client) ListNodeMembershipRules(spaceID, roomID string) (*[]NodeMembers
 		return nil, err
 	}
 
-	return &nodeMembershipRule, nil
+	return nodeMembershipRule, nil
 }
 
 func (c *Client) GetNodeMembershipRule(spaceID, roomID, nodeMembershipID string) (*NodeMembershipRule, error) {

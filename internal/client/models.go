@@ -1,6 +1,10 @@
 package client
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/google/uuid"
+)
 
 type SpaceInfo struct {
 	ID          string `json:"id"`
@@ -85,9 +89,9 @@ type RoomNode struct {
 	State    string `json:"state"`
 }
 type NodeMembershipRule struct {
-	ID          string                 `json:"id"`
-	SpaceID     string                 `json:"spaceID"`
-	RoomID      string                 `json:"roomID"`
+	ID          uuid.UUID              `json:"id"`
+	SpaceID     uuid.UUID              `json:"spaceID"`
+	RoomID      uuid.UUID              `json:"roomID"`
 	Clauses     []NodeMembershipClause `json:"clauses"`
 	Action      string                 `json:"action"`
 	Description string                 `json:"description"`

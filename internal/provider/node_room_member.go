@@ -244,7 +244,7 @@ func (s *nodeRoomMemberResource) Create(ctx context.Context, req resource.Create
 			)
 			return
 		}
-		plan.Rules[i].ID = types.StringValue(nodeMembershipRule.ID)
+		plan.Rules[i].ID = types.StringValue(nodeMembershipRule.ID.String())
 		plan.Rules[i].Action = types.StringValue(nodeMembershipRule.Action)
 		plan.Rules[i].Description = types.StringValue(nodeMembershipRule.Description)
 	}
@@ -304,11 +304,11 @@ func (s *nodeRoomMemberResource) Read(ctx context.Context, req resource.ReadRequ
 		return
 	}
 
-	for _, rule := range *nodeMembershipRule {
-		ruleExist, rIdx := checkNodeMembershipRule(rule.ID, state.Rules)
+	for _, rule := range nodeMembershipRule {
+		ruleExist, rIdx := checkNodeMembershipRule(rule.ID.String(), state.Rules)
 		if ruleExist {
-			clauseExist := checkNodeMembershipClause(rule.Clauses, state.Rules[rIdx].Clauses)
-			if !clauseExist {
+			clauseDiff := checkNodeMembershipClausesDiff(rule.Clauses, state.Rules[rIdx].Clauses)
+			if clauseDiff {
 				state.Rules[rIdx].Clauses = make([]nodeRoomMembershipClause, 0, len(rule.Clauses))
 				for _, clause := range rule.Clauses {
 					state.Rules[rIdx].Clauses = append(state.Rules[rIdx].Clauses, nodeRoomMembershipClause{
@@ -319,7 +319,7 @@ func (s *nodeRoomMemberResource) Read(ctx context.Context, req resource.ReadRequ
 					})
 				}
 			}
-			state.Rules[rIdx].ID = types.StringValue(rule.ID)
+			state.Rules[rIdx].ID = types.StringValue(rule.ID.String())
 			state.Rules[rIdx].Action = types.StringValue(rule.Action)
 			state.Rules[rIdx].Description = types.StringValue(rule.Description)
 		}
@@ -472,7 +472,7 @@ func (s *nodeRoomMemberResource) Update(ctx context.Context, req resource.Update
 				return
 			}
 		}
-		plan.Rules[i].ID = types.StringValue(nodeMembershipRule.ID)
+		plan.Rules[i].ID = types.StringValue(nodeMembershipRule.ID.String())
 		plan.Rules[i].Action = types.StringValue(nodeMembershipRule.Action)
 		plan.Rules[i].Description = types.StringValue(nodeMembershipRule.Description)
 	}
@@ -576,16 +576,17 @@ func checkNodeMembershipRule(ruleID string, rules []nodeRoomMembershipRule) (boo
 	return false, -1
 }
 
-func checkNodeMembershipClause(resp []client.NodeMembershipClause, stateClauses []nodeRoomMembershipClause) bool {
+func checkNodeMembershipClausesDiff(resp []client.NodeMembershipClause, stateClauses []nodeRoomMembershipClause) bool {
+	var diff bool
 	for _, s := range stateClauses {
 		for _, r := range resp {
-			if r.Label == s.Label.ValueString() &&
-				r.Operator == s.Operator.ValueString() &&
-				r.Value == s.Value.ValueString() &&
-				r.Negate == s.Negate.ValueBool() {
-				return true
+			if r.Label != s.Label.ValueString() ||
+				r.Operator != s.Operator.ValueString() ||
+				r.Value != s.Value.ValueString() ||
+				r.Negate != s.Negate.ValueBool() {
+				diff = true
 			}
 		}
 	}
-	return false
+	return diff
 }
