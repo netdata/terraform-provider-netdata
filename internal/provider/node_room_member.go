@@ -66,14 +66,14 @@ There are two options to add nodes to the room:
 `,
 		Attributes: map[string]schema.Attribute{
 			"room_id": schema.StringAttribute{
-				Description: "The Room ID of the space",
+				Description: "The Room ID of the space.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"space_id": schema.StringAttribute{
-				Description: "Space ID of the member",
+				Description: "Space ID of the member.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -92,50 +92,50 @@ There are two options to add nodes to the room:
 		},
 		Blocks: map[string]schema.Block{
 			"rule": schema.ListNestedBlock{
-				Description: "The node rule to apply to the room, more info [here](https://learn.netdata.cloud/docs/netdata-cloud/spaces-and-rooms/node-rule-based-room-assignment)",
+				Description: "The node rule to apply to the room. The logical relation between multiple rules is OR. More info [here](https://learn.netdata.cloud/docs/netdata-cloud/spaces-and-rooms/node-rule-based-room-assignment).",
 				NestedObject: schema.NestedBlockObject{
 					Attributes: map[string]schema.Attribute{
 						"id": schema.StringAttribute{
-							Description: "The ID of the rule",
+							Description: "The ID of the rule.",
 							Computed:    true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
 						},
 						"action": schema.StringAttribute{
-							Description: "Determines whether matching nodes will be included or excluded from the room. Valid values: INCLUDE or EXCLUDE",
+							Description: "Determines whether matching nodes will be included or excluded from the room. Valid values: INCLUDE or EXCLUDE.",
 							Required:    true,
 							Validators: []validator.String{
 								stringvalidator.OneOf([]string{"INCLUDE", "EXCLUDE"}...),
 							},
 						},
 						"description": schema.StringAttribute{
-							Description: "The description of the rule",
+							Description: "The description of the rule.",
 							Optional:    true,
 						},
 					},
 					Blocks: map[string]schema.Block{
 						"clause": schema.ListNestedBlock{
-							Description: "The clause to apply to the rule. It should be a least one clause",
+							Description: "The clause to apply to the rule. The logical relation between multiple clauses is AND. It should be a least one clause.",
 							NestedObject: schema.NestedBlockObject{
 								Attributes: map[string]schema.Attribute{
 									"label": schema.StringAttribute{
-										Description: "The host label to check",
+										Description: "The host label to check.",
 										Required:    true,
 									},
 									"operator": schema.StringAttribute{
-										Description: "Operator to compare. Valid values: equals, starts_with, ends_with, contains",
+										Description: "Operator to compare. Valid values: equals, starts_with, ends_with, contains.",
 										Required:    true,
 										Validators: []validator.String{
 											stringvalidator.OneOf([]string{"equals", "starts_with", "ends_with", "contains"}...),
 										},
 									},
 									"value": schema.StringAttribute{
-										Description: "The value to compare against",
+										Description: "The value to compare against.",
 										Required:    true,
 									},
 									"negate": schema.BoolAttribute{
-										Description: "Negate the clause",
+										Description: "Negate the clause.",
 										Required:    true,
 									},
 								},
