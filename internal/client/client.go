@@ -10,12 +10,14 @@ import (
 )
 
 var (
-	ErrNotFound          = errors.New("not found")
-	ErrSpaceIDRequired   = errors.New("spaceID is required")
-	ErrChannelIDRequired = errors.New("channelID is required")
-	ErrRoomIDRequired    = errors.New("roomID is required")
-	ErrMemberIDRequired  = errors.New("memberID is required")
-	ErrNodeID            = errors.New("nodeID is required")
+	ErrNotFound                     = errors.New("not found")
+	ErrSpaceIDRequired              = errors.New("spaceID is required")
+	ErrChannelIDRequired            = errors.New("channelID is required")
+	ErrRoomIDRequired               = errors.New("roomID is required")
+	ErrMemberIDRequired             = errors.New("memberID is required")
+	ErrNodeID                       = errors.New("nodeID is required")
+	ErrNodeMembershipIDRequired     = errors.New("nodeMembershipID is required")
+	ErrNodeMembershipActionRequired = errors.New("nodeMembershipAction is required")
 )
 
 type Client struct {

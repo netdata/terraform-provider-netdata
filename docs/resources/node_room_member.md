@@ -3,16 +3,17 @@
 page_title: "netdata_node_room_member Resource - terraform-provider-netdata"
 subcategory: ""
 description: |-
-  Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space, only reachable nodes can be added to the room.
-  This resource is useful in the case of Netdata Streaming and Replication https://learn.netdata.cloud/docs/observability-centralization-points/metrics-centralization-points/ when you want to spread
-  the Netdata child agents across different rooms because by default all of them end in the same room like the Netdata parent.
+  Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space.
+  There are two options to add nodes to the room:
+  providing the node names directly, but only reachable nodes will be added to the room, use node_names attribute for thiscreating rules that will automatically add nodes to the room based on the rule, use rule block for this
 ---
 
 # netdata_node_room_member (Resource)
 
-Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space, only reachable nodes can be added to the room.
-This resource is useful in the case of [Netdata Streaming and Replication](https://learn.netdata.cloud/docs/observability-centralization-points/metrics-centralization-points/) when you want to spread
-the Netdata child agents across different rooms because by default all of them end in the same room like the Netdata parent.
+Provides a Netdata Cloud Node Room Member resource. Use this resource to manage node membership to the room in the selected space.
+There are two options to add nodes to the room:
+- providing the node names directly, but only reachable nodes will be added to the room, use node_names attribute for this
+- creating rules that will automatically add nodes to the room based on the rule, use rule block for this
 
 ## Example Usage
 
@@ -24,6 +25,22 @@ resource "netdata_node_room_member" "test" {
     "node1",
     "node2"
   ]
+  rule {
+    action      = "INCLUDE"
+    description = "Description of the rule"
+    clause {
+      label    = "role"
+      operator = "equals"
+      value    = "parent"
+      negate   = false
+    }
+    clause {
+      label    = "environment"
+      operator = "equals"
+      value    = "production"
+      negate   = false
+    }
+  }
 }
 ```
 
@@ -32,9 +49,39 @@ resource "netdata_node_room_member" "test" {
 
 ### Required
 
-- `node_names` (List of String) List of node names to add to the room
-- `room_id` (String) The Room ID of the space
-- `space_id` (String) Space ID of the member
+- `room_id` (String) The Room ID of the space.
+- `space_id` (String) Space ID of the member.
+
+### Optional
+
+- `node_names` (List of String) List of node names to add to the room. At least one node name is required.
+- `rule` (Block List) The node rule to apply to the room. The logical relation between multiple rules is OR. More info [here](https://learn.netdata.cloud/docs/netdata-cloud/spaces-and-rooms/node-rule-based-room-assignment). (see [below for nested schema](#nestedblock--rule))
+
+<a id="nestedblock--rule"></a>
+### Nested Schema for `rule`
+
+Required:
+
+- `action` (String) Determines whether matching nodes will be included or excluded from the room. EXCLUDE action always takes precedence against INCLUDE. Valid values: INCLUDE or EXCLUDE.
+
+Optional:
+
+- `clause` (Block List) The clause to apply to the rule. The logical relation between multiple clauses is AND. It should be a least one clause. (see [below for nested schema](#nestedblock--rule--clause))
+- `description` (String) The description of the rule.
+
+Read-Only:
+
+- `id` (String) The ID of the rule.
+
+<a id="nestedblock--rule--clause"></a>
+### Nested Schema for `rule.clause`
+
+Required:
+
+- `label` (String) The host label to check.
+- `negate` (Boolean) Negate the clause.
+- `operator` (String) Operator to compare. Valid values: equals, starts_with, ends_with, contains.
+- `value` (String) The value to compare against.
 
 ## Import
 

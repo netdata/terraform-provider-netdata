@@ -26,6 +26,22 @@ func TestAccNodeRoomMemberResource(t *testing.T) {
 					node_names = [
 					  "netdata-agent"
 					]
+  					rule {
+  					  action      = "INCLUDE"
+  					  description = "Description"
+  					  clause {
+  					    label    = "role"
+  					    operator = "equals"
+  					    value    = "parent"
+  					    negate   = false
+  					  }
+  					  clause {
+  					    label    = "environment"
+  					    operator = "equals"
+  					    value    = "production"
+  					    negate   = true
+  					  }
+  					}
 					depends_on = [
 					  terraform_data.install_agent
 					]
@@ -73,6 +89,17 @@ EOT
 				`, getNetdataCloudURL()),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("netdata_node_room_member.test", "node_names.0"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.action", "INCLUDE"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.description", "Description"),
+					resource.TestCheckResourceAttrSet("netdata_node_room_member.test", "rule.0.id"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.0.label", "role"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.0.operator", "equals"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.0.value", "parent"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.0.negate", "false"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.1.label", "environment"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.1.operator", "equals"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.1.value", "production"),
+					resource.TestCheckResourceAttr("netdata_node_room_member.test", "rule.0.clause.1.negate", "true"),
 				),
 			},
 		},
