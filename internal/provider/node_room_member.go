@@ -103,7 +103,7 @@ There are two options to add nodes to the room:
 							},
 						},
 						"action": schema.StringAttribute{
-							Description: "Determines whether matching nodes will be included or excluded from the room. Valid values: INCLUDE or EXCLUDE.",
+							Description: "Determines whether matching nodes will be included or excluded from the room. EXCLUDE action always takes precedence against INCLUDE. Valid values: INCLUDE or EXCLUDE.",
 							Required:    true,
 							Validators: []validator.String{
 								stringvalidator.OneOf([]string{"INCLUDE", "EXCLUDE"}...),

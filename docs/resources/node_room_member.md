@@ -62,7 +62,7 @@ resource "netdata_node_room_member" "test" {
 
 Required:
 
-- `action` (String) Determines whether matching nodes will be included or excluded from the room. Valid values: INCLUDE or EXCLUDE.
+- `action` (String) Determines whether matching nodes will be included or excluded from the room. EXCLUDE action always takes precedence against INCLUDE. Valid values: INCLUDE or EXCLUDE.
 
 Optional:
 
