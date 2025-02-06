@@ -19,12 +19,12 @@ func TestAccSlackNotificationResource(t *testing.T) {
 					name     = "testAcc"
 				}
 				resource "netdata_notification_slack_channel" "test" {
-				  	name                    = "slack"
-				  	enabled                 = true
-				  	space_id                = "%s"
-				  	rooms_id                = [netdata_room.test.id]
-				  	webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-				  	alarms                  = "ALARMS_SETTING_ALL"
+					name                    = "slack"
+					enabled                 = true
+					space_id                = "%s"
+					rooms_id                = [netdata_room.test.id]
+					webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+					notifications           = ["CRITICAL","WARNING","CLEAR"]
 					repeat_notification_min = 30
 				}
 				`, getNonCommunitySpaceIDEnv(), getNonCommunitySpaceIDEnv()),
@@ -34,7 +34,9 @@ func TestAccSlackNotificationResource(t *testing.T) {
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "enabled", "true"),
 					resource.TestCheckResourceAttrSet("netdata_notification_slack_channel.test", "space_id"),
 					resource.TestCheckResourceAttrSet("netdata_notification_slack_channel.test", "rooms_id.0"),
-					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "alarms", "ALARMS_SETTING_ALL"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.0", "CRITICAL"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.1", "WARNING"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.2", "CLEAR"),
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "repeat_notification_min", "30"),
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "webhook_url", "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"),
 				),
@@ -46,12 +48,12 @@ func TestAccSlackNotificationResource(t *testing.T) {
 					name     = "testAcc"
 				}
 				resource "netdata_notification_slack_channel" "test" {
-				  	name                    = "slack"
-				  	enabled                 = true
-				  	space_id                = "%s"
-				  	rooms_id                = [netdata_room.test.id]
-				  	webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-				  	alarms                  = "ALARMS_SETTING_ALL"
+					name                    = "slack"
+					enabled                 = true
+					space_id                = "%s"
+					rooms_id                = [netdata_room.test.id]
+					webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+					notifications           = ["CLEAR","CRITICAL"]
 					repeat_notification_min = 60
 				}
 				`, getNonCommunitySpaceIDEnv(), getNonCommunitySpaceIDEnv()),
@@ -61,7 +63,8 @@ func TestAccSlackNotificationResource(t *testing.T) {
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "enabled", "true"),
 					resource.TestCheckResourceAttrSet("netdata_notification_slack_channel.test", "space_id"),
 					resource.TestCheckResourceAttrSet("netdata_notification_slack_channel.test", "rooms_id.0"),
-					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "alarms", "ALARMS_SETTING_ALL"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.0", "CLEAR"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.1", "CRITICAL"),
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "repeat_notification_min", "60"),
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "webhook_url", "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"),
 				),
@@ -73,12 +76,12 @@ func TestAccSlackNotificationResource(t *testing.T) {
 					name     = "testAcc"
 				}
 				resource "netdata_notification_slack_channel" "test" {
-				  	name                    = "slack"
-				  	enabled                 = false
-				  	space_id                = "%s"
-				  	rooms_id                = null
-				  	webhook_url             = "https://hooks.slack.com/services/T10000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-				  	alarms                  = "ALARMS_SETTING_ALL"
+					name                    = "slack"
+					enabled                 = false
+					space_id                = "%s"
+					rooms_id                = null
+					webhook_url             = "https://hooks.slack.com/services/T10000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
+					notifications           = ["CRITICAL","WARNING","CLEAR"]
 				}
 				`, getNonCommunitySpaceIDEnv(), getNonCommunitySpaceIDEnv()),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -87,7 +90,9 @@ func TestAccSlackNotificationResource(t *testing.T) {
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "enabled", "false"),
 					resource.TestCheckResourceAttrSet("netdata_notification_slack_channel.test", "space_id"),
 					resource.TestCheckNoResourceAttr("netdata_notification_slack_channel.test", "rooms_id.0"),
-					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "alarms", "ALARMS_SETTING_ALL"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.0", "CRITICAL"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.1", "WARNING"),
+					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "notifications.2", "CLEAR"),
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "repeat_notification_min", "0"),
 					resource.TestCheckResourceAttr("netdata_notification_slack_channel.test", "webhook_url", "https://hooks.slack.com/services/T10000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"),
 				),

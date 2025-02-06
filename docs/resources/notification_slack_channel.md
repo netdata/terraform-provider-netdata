@@ -30,9 +30,9 @@ resource "netdata_notification_slack_channel" "test" {
 
 ### Required
 
-- `alarms` (String) The alarms setting to set the Slack notification. Valid values are: `ALARMS_SETTING_ALL`, `ALARMS_SETTING_CRITICAL`, `ALARMS_SETTING_ALL_BUT_UNREACHABLE`, `ALARMS_SETTING_UNREACHABLE`
 - `enabled` (Boolean) The enabled status of the Slack notification
 - `name` (String) The name of the Slack notification
+- `notifications` (List of String) The notification options for the Slack. Valid values are: `CRITICAL`, `WARNING`, `CLEAR`, `REACHABLE`, `UNREACHABLE`
 - `space_id` (String) The ID of the space for the Slack notification
 - `webhook_url` (String, Sensitive) Slack webhook URL
 

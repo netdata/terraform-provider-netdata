@@ -31,11 +31,11 @@ resource "netdata_notification_pagerduty_channel" "test" {
 
 ### Required
 
-- `alarms` (String) The alarms setting to set the Pagerduty notification. Valid values are: `ALARMS_SETTING_ALL`, `ALARMS_SETTING_CRITICAL`, `ALARMS_SETTING_ALL_BUT_UNREACHABLE`, `ALARMS_SETTING_UNREACHABLE`
 - `alert_events_url` (String) URL for alert events
 - `enabled` (Boolean) The enabled status of the Pagerduty notification
 - `integration_key` (String, Sensitive) Integration key
 - `name` (String) The name of the Pagerduty notification
+- `notifications` (List of String) The notification options for the Pagerduty. Valid values are: `CRITICAL`, `WARNING`, `CLEAR`, `REACHABLE`, `UNREACHABLE`
 - `space_id` (String) The ID of the space for the Pagerduty notification
 
 ### Optional

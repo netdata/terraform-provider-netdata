@@ -2,7 +2,6 @@ package provider
 
 import (
 	"fmt"
-	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
@@ -61,14 +60,14 @@ func commonNotificationSchema(notificationType string) schema.Schema {
 					),
 				},
 			},
-			"alarms": schema.StringAttribute{
-				Description: fmt.Sprintf("The alarms setting to set the %s notification. Valid values are: `ALARMS_SETTING_ALL`, `ALARMS_SETTING_CRITICAL`, `ALARMS_SETTING_ALL_BUT_UNREACHABLE`, `ALARMS_SETTING_UNREACHABLE`", notificationType),
+			"notifications": schema.ListAttribute{
+				Description: fmt.Sprintf("The notification options for the %s. Valid values are: `CRITICAL`, `WARNING`, `CLEAR`, `REACHABLE`, `UNREACHABLE`", notificationType),
+				ElementType: types.StringType,
 				Required:    true,
-				Validators: []validator.String{
-					stringvalidator.RegexMatches(
-						regexp.MustCompile(`^(ALARMS_SETTING_ALL|ALARMS_SETTING_CRITICAL|ALARMS_SETTING_ALL_BUT_UNREACHABLE|ALARMS_SETTING_UNREACHABLE)$`),
-						"Invalid alarms setting",
-					),
+				Validators: []validator.List{
+					listvalidator.SizeAtLeast(1),
+					listvalidator.UniqueValues(),
+					listvalidator.ValueStringsAre(stringvalidator.OneOf([]string{"CRITICAL", "WARNING", "CLEAR", "REACHABLE", "UNREACHABLE"}...)),
 				},
 			},
 		},

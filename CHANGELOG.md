@@ -1,3 +1,11 @@
+## 0.4.0
+
+BREAKING CHANGES:
+
+- resource/netdata_notification_discord_channel: renamed attribute from `alarms` to `notifications` with new values
+- resource/netdata_notification_pagerduty_channel: renamed attribute from `alarms` to `notifications` with new values
+- resource/netdata_notification_slack_channel: renamed attribute from `alarms` to `notifications` with new values
+
 ## 0.3.0
 
 FEATURES:

@@ -17,7 +17,7 @@ func (c *Client) CreatePagerdutyChannel(spaceID string, commonParams Notificatio
 		Name:                     commonParams.Name,
 		IntegrationID:            commonParams.Integration.ID,
 		Rooms:                    commonParams.Rooms,
-		Alarms:                   commonParams.Alarms,
+		NotificationOptions:      commonParams.NotificationOptions,
 		RepeatNotificationMinute: commonParams.RepeatNotificationMinute,
 	}
 
@@ -72,7 +72,7 @@ func (c *Client) UpdatePagerdutyChannelByID(spaceID string, commonParams Notific
 	reqBody := notificationRequestPayload{
 		Name:                     commonParams.Name,
 		Rooms:                    commonParams.Rooms,
-		Alarms:                   commonParams.Alarms,
+		NotificationOptions:      commonParams.NotificationOptions,
 		RepeatNotificationMinute: commonParams.RepeatNotificationMinute,
 	}
 

@@ -37,7 +37,7 @@ type NotificationChannel struct {
 	Enabled                  bool                    `json:"enabled"`
 	Name                     string                  `json:"name"`
 	Integration              NotificationIntegration `json:"integration"`
-	Alarms                   string                  `json:"alarms"`
+	NotificationOptions      []string                `json:"notification_options"`
 	Rooms                    []string                `json:"rooms"`
 	Secrets                  json.RawMessage         `json:"secrets"`
 	RepeatNotificationMinute int64                   `json:"repeat_notification_min,omitempty"`
@@ -68,7 +68,7 @@ type NotificationPagerdutyChannel struct {
 type notificationRequestPayload struct {
 	Name                     string          `json:"name"`
 	IntegrationID            string          `json:"integrationID"`
-	Alarms                   string          `json:"alarms"`
+	NotificationOptions      []string        `json:"notification_options"`
 	Rooms                    []string        `json:"rooms"`
 	Secrets                  json.RawMessage `json:"secrets"`
 	RepeatNotificationMinute int64           `json:"repeat_notification_min,omitempty"`
