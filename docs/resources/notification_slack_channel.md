@@ -21,7 +21,7 @@ resource "netdata_notification_slack_channel" "test" {
   rooms_id                = ["<room_id>"]
   repeat_notification_min = 30
   webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-  alarms                  = "ALARMS_SETTING_ALL"
+  notifications           = ["CRITICAL", "WARNING", "CLEAR"]
 }
 ```
 
