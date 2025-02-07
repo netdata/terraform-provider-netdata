@@ -31,10 +31,10 @@ resource "netdata_notification_discord_channel" "test" {
 
 ### Required
 
-- `alarms` (String) The alarms setting to set the Discord notification. Valid values are: `ALARMS_SETTING_ALL`, `ALARMS_SETTING_CRITICAL`, `ALARMS_SETTING_ALL_BUT_UNREACHABLE`, `ALARMS_SETTING_UNREACHABLE`
 - `channel_type` (String) Discord channel type. Valid values are: `text`, `forum`
 - `enabled` (Boolean) The enabled status of the Discord notification
 - `name` (String) The name of the Discord notification
+- `notifications` (List of String) The notification options for the Discord. Valid values are: `CRITICAL`, `WARNING`, `CLEAR`, `REACHABLE`, `UNREACHABLE`
 - `space_id` (String) The ID of the space for the Discord notification
 - `webhook_url` (String, Sensitive) Discord webhook URL
 

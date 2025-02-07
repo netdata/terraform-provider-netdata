@@ -33,7 +33,7 @@ type slackChannelResourceModel struct {
 	Enabled                  types.Bool   `tfsdk:"enabled"`
 	SpaceID                  types.String `tfsdk:"space_id"`
 	RoomsID                  types.List   `tfsdk:"rooms_id"`
-	Alarms                   types.String `tfsdk:"alarms"`
+	NotificationOptions      types.List   `tfsdk:"notifications"`
 	RepeatNotificationMinute types.Int64  `tfsdk:"repeat_notification_min"`
 	WebhookURL               types.String `tfsdk:"webhook_url"`
 }
@@ -91,11 +91,14 @@ func (s *slackChannelResource) Create(ctx context.Context, req resource.CreateRe
 	var roomsID []string
 	plan.RoomsID.ElementsAs(ctx, &roomsID, false)
 
+	var notificationOptions []string
+	plan.NotificationOptions.ElementsAs(ctx, &notificationOptions, false)
+
 	commonParams := client.NotificationChannel{
 		Name:                     plan.Name.ValueString(),
 		Integration:              *notificationIntegration,
 		Rooms:                    roomsID,
-		Alarms:                   plan.Alarms.ValueString(),
+		NotificationOptions:      notificationOptions,
 		Enabled:                  plan.Enabled.ValueBool(),
 		RepeatNotificationMinute: plan.RepeatNotificationMinute.ValueInt64(),
 	}
@@ -117,7 +120,7 @@ func (s *slackChannelResource) Create(ctx context.Context, req resource.CreateRe
 	plan.Name = types.StringValue(notificationChannel.Name)
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
-	plan.Alarms = types.StringValue(notificationChannel.Alarms)
+	plan.NotificationOptions, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.NotificationOptions)
 	plan.RepeatNotificationMinute = types.Int64Value(notificationChannel.RepeatNotificationMinute)
 
 	diags = resp.State.Set(ctx, plan)
@@ -161,7 +164,7 @@ func (s *slackChannelResource) Read(ctx context.Context, req resource.ReadReques
 	state.Name = types.StringValue(notificationChannel.Name)
 	state.Enabled = types.BoolValue(notificationChannel.Enabled)
 	state.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
-	state.Alarms = types.StringValue(notificationChannel.Alarms)
+	state.NotificationOptions, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.NotificationOptions)
 	state.RepeatNotificationMinute = types.Int64Value(notificationChannel.RepeatNotificationMinute)
 	state.WebhookURL = types.StringValue(notificationSecrets.URL)
 	diags = resp.State.Set(ctx, &state)
@@ -183,11 +186,14 @@ func (s *slackChannelResource) Update(ctx context.Context, req resource.UpdateRe
 	var roomsID []string
 	plan.RoomsID.ElementsAs(ctx, &roomsID, false)
 
+	var notificationOptions []string
+	plan.NotificationOptions.ElementsAs(ctx, &notificationOptions, false)
+
 	commonParams := client.NotificationChannel{
 		ID:                       plan.ID.ValueString(),
 		Name:                     plan.Name.ValueString(),
 		Rooms:                    roomsID,
-		Alarms:                   plan.Alarms.ValueString(),
+		NotificationOptions:      notificationOptions,
 		Enabled:                  plan.Enabled.ValueBool(),
 		RepeatNotificationMinute: plan.RepeatNotificationMinute.ValueInt64(),
 	}
@@ -209,7 +215,7 @@ func (s *slackChannelResource) Update(ctx context.Context, req resource.UpdateRe
 	plan.Name = types.StringValue(notificationChannel.Name)
 	plan.Enabled = types.BoolValue(notificationChannel.Enabled)
 	plan.RoomsID, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.Rooms)
-	plan.Alarms = types.StringValue(notificationChannel.Alarms)
+	plan.NotificationOptions, _ = types.ListValueFrom(ctx, types.StringType, notificationChannel.NotificationOptions)
 	plan.RepeatNotificationMinute = types.Int64Value(notificationChannel.RepeatNotificationMinute)
 
 	diags = resp.State.Set(ctx, plan)

@@ -17,7 +17,7 @@ func (c *Client) CreateSlackChannel(spaceID string, commonParams NotificationCha
 		Name:                     commonParams.Name,
 		IntegrationID:            commonParams.Integration.ID,
 		Rooms:                    commonParams.Rooms,
-		Alarms:                   commonParams.Alarms,
+		NotificationOptions:      commonParams.NotificationOptions,
 		RepeatNotificationMinute: commonParams.RepeatNotificationMinute,
 	}
 
@@ -71,7 +71,7 @@ func (c *Client) UpdateSlackChannelByID(spaceID string, commonParams Notificatio
 	reqBody := notificationRequestPayload{
 		Name:                     commonParams.Name,
 		Rooms:                    commonParams.Rooms,
-		Alarms:                   commonParams.Alarms,
+		NotificationOptions:      commonParams.NotificationOptions,
 		RepeatNotificationMinute: commonParams.RepeatNotificationMinute,
 	}
 	secretsJson, err := json.Marshal(slackParams)
