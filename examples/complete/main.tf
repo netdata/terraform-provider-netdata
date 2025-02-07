@@ -90,7 +90,7 @@ resource "netdata_notification_slack_channel" "test" {
   enabled                 = true
   space_id                = netdata_space.test.id
   rooms_id                = [netdata_room.test.id]
-  alarms                  = "ALARMS_SETTING_ALL"
+  notifications           = ["CRITICAL", "WARNING", "CLEAR"]
   repeat_notification_min = 60
   webhook_url             = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
 }
@@ -101,7 +101,7 @@ resource "netdata_notification_discord_channel" "test" {
   enabled        = true
   space_id       = netdata_space.test.id
   rooms_id       = [netdata_room.test.id]
-  alarms         = "ALARMS_SETTING_ALL"
+  notifications  = ["CRITICAL", "WARNING", "CLEAR"]
   webhook_url    = "https://discord.com/api/webhooks/0000000000000/XXXXXXXXXXXXXXXXXXXXXXXX"
   channel_type   = "forum"
   channel_thread = "thread"
@@ -112,7 +112,7 @@ resource "netdata_notification_pagerduty_channel" "test" {
 
   enabled          = true
   space_id         = netdata_space.test.id
-  alarms           = "ALARMS_SETTING_ALL"
+  notifications    = ["CRITICAL", "WARNING", "CLEAR"]
   alert_events_url = "https://events.pagerduty.com/v2/enqueue"
   integration_key  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
