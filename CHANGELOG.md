@@ -1,3 +1,9 @@
+## 0.4.1
+
+BUGFIXES:
+
+- fix examples for notifications channels
+
 ## 0.4.0
 
 BREAKING CHANGES:
