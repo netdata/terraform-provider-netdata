@@ -14,7 +14,7 @@ func TestAccRoomMemberResource(t *testing.T) {
 			{
 				Config: fmt.Sprintf(`
 				resource "netdata_space_member" "test" {
-					email    = "foo@bar.local"
+					email    = "room@member.local"
 					space_id = "%s"
 					role     = "admin"
 				}
