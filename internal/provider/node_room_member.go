@@ -307,6 +307,7 @@ func (s *nodeRoomMemberResource) Read(ctx context.Context, req resource.ReadRequ
 		for _, currentRule := range nodeMembershipRules {
 			if rule.ID.ValueString() == currentRule.ID.String() {
 				ruleExist = true
+				break
 			}
 		}
 		if ruleExist {
