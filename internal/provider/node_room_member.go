@@ -98,9 +98,6 @@ There are two options to add nodes to the room:
 						"id": schema.StringAttribute{
 							Description: "The ID of the rule.",
 							Computed:    true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
 						},
 						"action": schema.StringAttribute{
 							Description: "Determines whether matching nodes will be included or excluded from the room. Valid values: INCLUDE or EXCLUDE. EXCLUDE action always takes precedence against INCLUDE.",
@@ -295,35 +292,52 @@ func (s *nodeRoomMemberResource) Read(ctx context.Context, req resource.ReadRequ
 
 	state.NodeNames, _ = types.ListValueFrom(ctx, types.StringType, refreshedRoomNodes)
 
-	nodeMembershipRule, err := s.client.ListNodeMembershipRules(state.SpaceID.ValueString(), state.RoomID.ValueString())
+	nodeMembershipRules, err := s.client.ListNodeMembershipRules(state.SpaceID.ValueString(), state.RoomID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Getting Node Room Membership Rules",
 			fmt.Sprintf("Could not read node room membership rules for space_id/room_id: %s/%s err: %v", state.SpaceID.ValueString(), state.RoomID.ValueString(), err.Error()),
 		)
-		return
 	}
 
-	for _, rule := range nodeMembershipRule {
-		ruleExist, rIdx := checkNodeMembershipRule(rule.ID.String(), state.Rules)
-		if ruleExist {
-			clauseDiff := checkNodeMembershipClausesDiff(rule.Clauses, state.Rules[rIdx].Clauses)
-			if clauseDiff {
-				state.Rules[rIdx].Clauses = make([]nodeRoomMembershipClause, 0, len(rule.Clauses))
-				for _, clause := range rule.Clauses {
-					state.Rules[rIdx].Clauses = append(state.Rules[rIdx].Clauses, nodeRoomMembershipClause{
-						Label:    types.StringValue(clause.Label),
-						Operator: types.StringValue(clause.Operator),
-						Value:    types.StringValue(clause.Value),
-						Negate:   types.BoolValue(clause.Negate),
-					})
-				}
+	var refreshedNodeMembershipRules []nodeRoomMembershipRule
+
+	for _, rule := range state.Rules {
+		var ruleExist bool
+		for _, currentRule := range nodeMembershipRules {
+			if rule.ID.ValueString() == currentRule.ID.String() {
+				ruleExist = true
+				break
 			}
-			state.Rules[rIdx].ID = types.StringValue(rule.ID.String())
-			state.Rules[rIdx].Action = types.StringValue(rule.Action)
-			state.Rules[rIdx].Description = types.StringValue(rule.Description)
+		}
+		if ruleExist {
+			nodeMembershipRule, err := s.client.GetNodeMembershipRule(state.SpaceID.ValueString(), state.RoomID.ValueString(), rule.ID.String())
+			if err != nil {
+				resp.Diagnostics.AddError(
+					"Error Getting Node Room Membership Rule",
+					fmt.Sprintf("Could not read node room membership rule for space_id/room_id/rule_id: %s/%s/%s err: %v", state.SpaceID.ValueString(), state.RoomID.ValueString(), rule.ID.String(), err.Error()),
+				)
+				return
+			}
+			var refreshedNodeMembershipRulesClauses []nodeRoomMembershipClause
+			for _, clause := range nodeMembershipRule.Clauses {
+				refreshedNodeMembershipRulesClauses = append(refreshedNodeMembershipRulesClauses, nodeRoomMembershipClause{
+					Label:    types.StringValue(clause.Label),
+					Operator: types.StringValue(clause.Operator),
+					Value:    types.StringValue(clause.Value),
+					Negate:   types.BoolValue(clause.Negate),
+				})
+			}
+			refreshedNodeMembershipRules = append(refreshedNodeMembershipRules, nodeRoomMembershipRule{
+				ID:          types.StringValue(nodeMembershipRule.ID.String()),
+				Action:      types.StringValue(nodeMembershipRule.Action),
+				Description: types.StringValue(nodeMembershipRule.Description),
+				Clauses:     refreshedNodeMembershipRulesClauses,
+			})
 		}
 	}
+
+	state.Rules = refreshedNodeMembershipRules
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -418,7 +432,7 @@ func (s *nodeRoomMemberResource) Update(ctx context.Context, req resource.Update
 	}
 
 	for _, stateRule := range state.Rules {
-		exist, _ := checkNodeMembershipRule(stateRule.ID.ValueString(), plan.Rules)
+		exist := checkNodeMembershipRule(stateRule.ID.ValueString(), plan.Rules)
 		if !exist {
 			err = s.client.DeleteNodeMembershipRule(state.SpaceID.ValueString(), state.RoomID.ValueString(), stateRule.ID.ValueString())
 			if err != nil {
@@ -435,7 +449,7 @@ func (s *nodeRoomMemberResource) Update(ctx context.Context, req resource.Update
 		var nodeMembershipRule *client.NodeMembershipRule
 		var nodeMembershipClauses []client.NodeMembershipClause
 
-		exist, _ := checkNodeMembershipRule(planRule.ID.ValueString(), state.Rules)
+		exist := checkNodeMembershipRule(planRule.ID.ValueString(), state.Rules)
 		for _, clause := range planRule.Clauses {
 			nodeMembershipClauses = append(nodeMembershipClauses, client.NodeMembershipClause{
 				Label:    clause.Label.ValueString(),
@@ -567,29 +581,11 @@ func checkNodeExists(searchingForNodeName string, nodes *client.RoomNodes, reach
 	return false, ""
 }
 
-func checkNodeMembershipRule(ruleID string, rules []nodeRoomMembershipRule) (bool, int) {
-	for idx, rule := range rules {
+func checkNodeMembershipRule(ruleID string, rules []nodeRoomMembershipRule) bool {
+	for _, rule := range rules {
 		if ruleID == rule.ID.ValueString() {
-			return true, idx
-		}
-	}
-	return false, -1
-}
-
-func checkNodeMembershipClausesDiff(resp []client.NodeMembershipClause, stateClauses []nodeRoomMembershipClause) bool {
-	if len(resp) != len(stateClauses) {
-		return true
-	}
-
-	for i, r := range resp {
-		s := stateClauses[i]
-		if r.Label != s.Label.ValueString() ||
-			r.Operator != s.Operator.ValueString() ||
-			r.Value != s.Value.ValueString() ||
-			r.Negate != s.Negate.ValueBool() {
 			return true
 		}
 	}
-
 	return false
 }
