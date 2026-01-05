@@ -1,3 +1,9 @@
+## 0.4.2
+
+BUGFIXES:
+
+- unhandled manual changes (outside terraform) in node membership rules
+
 ## 0.4.1
 
 BUGFIXES:
