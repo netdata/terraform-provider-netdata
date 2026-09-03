@@ -18,6 +18,8 @@ var (
 	ErrNodeID                       = errors.New("nodeID is required")
 	ErrNodeMembershipIDRequired     = errors.New("nodeMembershipID is required")
 	ErrNodeMembershipActionRequired = errors.New("nodeMembershipAction is required")
+	ErrSilencingRuleIDRequired      = errors.New("silencingRuleID is required")
+	ErrInvalidSilencingRuleID       = errors.New("silencingRuleID is invalid, must be a valid UUID")
 )
 
 type Client struct {

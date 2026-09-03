@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -101,4 +102,24 @@ type NodeMembershipClause struct {
 	Operator string `json:"operator"`
 	Value    string `json:"value"`
 	Negate   bool   `json:"negate"`
+}
+
+type SilencingRule struct {
+	ID                  uuid.UUID         `json:"id"`
+	Name                string            `json:"name"`
+	RoomIDs             []uuid.UUID       `json:"room_ids,omitempty"`
+	NodeIDs             []uuid.UUID       `json:"node_ids,omitempty"`
+	HostLabels          map[string]string `json:"host_labels,omitempty"`
+	AlertNames          []string          `json:"alert_names,omitempty"`
+	AlertContexts       []string          `json:"alert_contexts,omitempty"`
+	AlertInstances      []string          `json:"alert_instances,omitempty"`
+	AlertRoles          []string          `json:"alert_roles,omitempty"`
+	NotificationOptions []string          `json:"notification_options,omitempty"`
+	IntegrationIDs      []uuid.UUID       `json:"integration_ids,omitempty"`
+	StartsAt            time.Time         `json:"starts_at"`
+	LastsUntil          *time.Time        `json:"lasts_until,omitempty"`
+	DeleteOnExpiry      bool              `json:"delete_on_expiry"`
+	Disabled            bool              `json:"disabled"`
+	RRule               *string           `json:"rrule,omitempty"`
+	Timezone            *string           `json:"timezone,omitempty"`
 }

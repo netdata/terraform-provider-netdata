@@ -39,12 +39,18 @@ func commonNotificationSchema(notificationType string) schema.Schema {
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+				Validators: []validator.String{
+					UUID(),
+				},
 			},
 			"rooms_id": schema.ListAttribute{
 				Description: fmt.Sprintf("The list of room IDs to set the %s notification. If the rooms list is null, the %s notification will be applied to `All rooms`", notificationType, notificationType),
 				ElementType: types.StringType,
 				Optional:    true,
 				Validators: []validator.List{
+					listvalidator.ValueStringsAre(
+						UUID(),
+					),
 					listvalidator.SizeAtLeast(1),
 				},
 			},

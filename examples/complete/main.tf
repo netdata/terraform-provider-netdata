@@ -117,6 +117,19 @@ resource "netdata_notification_pagerduty_channel" "test" {
   integration_key  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
 
+resource "netdata_notification_silencing_rule" "test" {
+  space_id             = netdata_space.test.id
+  name                 = "Testing Rule"
+  starts_at            = "2026-09-01T00:00:00Z"
+  lasts_until          = "2030-12-31T23:59:59Z"
+  notification_options = ["CRITICAL", "WARNING"]
+  alert_names          = ["disk.space"]
+  alert_contexts       = ["disk_space_usage"]
+  timezone             = "America/New_York"
+  rrule                = "RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=5;BYDAY=MO"
+  delete_on_expiry     = false
+}
+
 data "netdata_space" "test" {
   id = netdata_space.test.id
 }
