@@ -10,6 +10,7 @@ import (
 func TestAccNodeRoomMemberResource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		PreCheck:                 func() { testAccPreCheck(t) },
 		Steps: []resource.TestStep{
 			{
 				Config: fmt.Sprintf(`
@@ -70,7 +71,6 @@ services:
       - /etc/os-release:/host/etc/os-release:ro
       - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./parent-stream.conf:/etc/netdata/stream.conf
     environment:
       - NETDATA_CLAIM_TOKEN=$${NETDATA_CLAIM_TOKEN}
       - NETDATA_CLAIM_URL=%s

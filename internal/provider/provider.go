@@ -104,6 +104,7 @@ func (p *netdataCloudProvider) DataSources(ctx context.Context) []func() datasou
 	return []func() datasource.DataSource{
 		NewSpaceDataSource,
 		NewRoomDataSource,
+		NewNodeDataSource,
 	}
 }
 
