@@ -96,6 +96,7 @@ func (p *netdataCloudProvider) Resources(ctx context.Context) []func() resource.
 		NewDiscordChannelResource,
 		NewPagerdutyChannelResource,
 		NewNodeRoomMemberResource,
+		NewNotificationSilencingRule,
 	}
 }
 

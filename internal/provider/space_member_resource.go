@@ -83,6 +83,9 @@ func (s *spaceMemberResource) Schema(ctx context.Context, req resource.SchemaReq
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+				Validators: []validator.String{
+					UUID(),
+				},
 			},
 		},
 	}

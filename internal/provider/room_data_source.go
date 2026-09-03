@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/netdata/terraform-provider-netdata/internal/client"
 )
@@ -42,10 +43,16 @@ func (s *roomDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, r
 			"id": schema.StringAttribute{
 				Description: "The ID of the room",
 				Required:    true,
+				Validators: []validator.String{
+					UUID(),
+				},
 			},
 			"space_id": schema.StringAttribute{
 				Description: "The ID of the space",
 				Required:    true,
+				Validators: []validator.String{
+					UUID(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Description: "The name of the room",

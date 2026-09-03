@@ -71,12 +71,18 @@ There are two options to add nodes to the room:
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+				Validators: []validator.String{
+					UUID(),
+				},
 			},
 			"space_id": schema.StringAttribute{
 				Description: "Space ID of the member.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+				},
+				Validators: []validator.String{
+					UUID(),
 				},
 			},
 			"node_names": schema.ListAttribute{
