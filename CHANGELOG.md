@@ -1,3 +1,10 @@
+## 0.5.0
+
+FEATURES:
+
+- add Notification Silencing Rule resource `netdata_notification_silencing_rule`
+- add Node data source `netdata_node`
+
 ## 0.4.2
 
 BUGFIXES:
