@@ -130,6 +130,17 @@ resource "netdata_notification_silencing_rule" "test" {
   delete_on_expiry     = false
 }
 
+resource "netdata_notification_room_settings" "test" {
+  space_id           = netdata_space.test.id
+  room_id            = netdata_room.test.id
+  reachability_delay = 120
+}
+
+resource "netdata_notification_space_settings" "test" {
+  space_id           = netdata_space.test.id
+  reachability_delay = 300
+}
+
 data "netdata_space" "test" {
   id = netdata_space.test.id
 }
