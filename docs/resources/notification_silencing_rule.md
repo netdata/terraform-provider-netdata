@@ -5,12 +5,14 @@ subcategory: ""
 description: |-
   Provides a Netdata Cloud Notification Silencing Rule resource. Use this resource to manage notification silencing rules in Netdata Cloud.
   A notification silencing rule allows you to silence notifications for specific alerts, nodes, rooms, or spaces based on various criteria.
+  Available only in paid plans.
 ---
 
 # netdata_notification_silencing_rule (Resource)
 
 Provides a Netdata Cloud Notification Silencing Rule resource. Use this resource to manage notification silencing rules in Netdata Cloud.
 A notification silencing rule allows you to silence notifications for specific alerts, nodes, rooms, or spaces based on various criteria.
+Available only in paid plans.
 
 ## Example Usage
 

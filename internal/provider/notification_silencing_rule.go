@@ -70,6 +70,7 @@ func (s *notificationSilencingRuleResource) Schema(ctx context.Context, req reso
 		Description: `
 Provides a Netdata Cloud Notification Silencing Rule resource. Use this resource to manage notification silencing rules in Netdata Cloud.
 A notification silencing rule allows you to silence notifications for specific alerts, nodes, rooms, or spaces based on various criteria.
+Available only in paid plans.
 `,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
