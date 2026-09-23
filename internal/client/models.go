@@ -66,6 +66,16 @@ type NotificationPagerdutyChannel struct {
 	IntegrationKey string `json:"integrationKey"`
 }
 
+type NotificationTelegramChannel struct {
+	BotToken string `json:"token"`
+	ChatID   string `json:"chatID"`
+	TopicID  int64  `json:"topicID"`
+}
+
+type NotificationMicrosoftTeamsChannel struct {
+	WebhookURL string `json:"webhookUrl"`
+}
+
 type notificationRequestPayload struct {
 	Name                     string          `json:"name"`
 	IntegrationID            string          `json:"integrationID"`
