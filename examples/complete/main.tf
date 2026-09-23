@@ -117,6 +117,26 @@ resource "netdata_notification_pagerduty_channel" "test" {
   integration_key  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
 
+resource "netdata_notification_telegram_channel" "test" {
+  name = "telegram"
+
+  enabled       = true
+  space_id      = netdata_space.test.id
+  notifications = ["CRITICAL", "WARNING", "CLEAR"]
+  bot_token     = "0000000000:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  chat_id       = "-1000000000000"
+  topic_id      = 10
+}
+
+resource "netdata_notification_microsoftteams_channel" "test" {
+  name = "microsoftteams"
+
+  enabled       = true
+  space_id      = netdata_space.test.id
+  notifications = ["CRITICAL", "WARNING", "CLEAR"]
+  webhook_url   = "https://xxxxxxx.webhook.office.com/webhookb2/00000000-0000-0000-0000-000000000000@00000000-0000-0000-0000-000000000000/IncomingWebhook/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/00000000-0000-0000-0000-000000000000"
+}
+
 resource "netdata_notification_silencing_rule" "test" {
   space_id             = netdata_space.test.id
   name                 = "Testing Rule"
