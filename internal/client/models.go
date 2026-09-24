@@ -123,3 +123,23 @@ type SilencingRule struct {
 	RRule               *string           `json:"rrule,omitempty"`
 	Timezone            *string           `json:"timezone,omitempty"`
 }
+
+type NotificationSettingsResponse struct {
+	DefaultReachabilityDelay *int                    `json:"defaultReachabilityDelay"`
+	Settings                 []*NotificationSettings `json:"settings"`
+}
+
+type NotificationSettings struct {
+	ID                uuid.UUID  `json:"id"`
+	SpaceID           uuid.UUID  `json:"spaceID"`
+	RoomID            *uuid.UUID `json:"roomID"`
+	ReachabilityDelay *int       `json:"reachabilityDelay"`
+	Enabled           bool       `json:"enabled"`
+	CreatedAt         time.Time  `json:"created_at"`
+	UpdatedAt         time.Time  `json:"updated_at"`
+}
+
+type NotificationSettingsUpsert struct {
+	RoomID            *uuid.UUID `json:"roomID,omitempty"`
+	ReachabilityDelay *int       `json:"reachabilityDelay"`
+}
