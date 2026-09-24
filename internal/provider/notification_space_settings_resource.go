@@ -195,9 +195,6 @@ func (s *notificationSpaceSettingsResource) Delete(ctx context.Context, req reso
 
 	err := s.client.DeleteNotificationSettings(state.SpaceID.ValueString(), state.ID.ValueString())
 	if err != nil {
-		if errors.Is(err, client.ErrNotFound) {
-			return
-		}
 		resp.Diagnostics.AddError(
 			"Error Deleting Notification Space Settings",
 			fmt.Sprintf("Could not delete notification settings for space_id/id: %s/%s err: %v", state.SpaceID.ValueString(), state.ID.ValueString(), err.Error()),
