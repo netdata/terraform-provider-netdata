@@ -1,3 +1,12 @@
+## 0.6.0
+
+FEATURES:
+
+- add Notification Space Settings resource `netdata_notification_space_settings`
+- add Notification Room Settings resource `netdata_notification_room_settings`
+- add Notification Channel resource for Microsoft Teams `netdata_notification_microsoftteams_channel`
+- add Notification Channel resource for Telegram `netdata_notification_telegram_channel`
+
 ## 0.5.0
 
 FEATURES:
